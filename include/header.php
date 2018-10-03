@@ -5,58 +5,18 @@
 <meta name="description" content="生蚝体育比赛信息查询系统，为各类体育比赛提供信息查询功能，如秩序册、成绩、检录等。">
 <meta name="author" content="生蚝科技">
 
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?=CSS_PATH;?>util.css">
 
 <link rel="shortcut icon" href="<?=ROOT_PATH;?>favicon.ico">
-
-<style type="text/css">
-body{
-	background-color: #f5f5f5;
-	padding-top:20px;
-}
-table{
-	border-radius:5px;
-	border-collapse:separate;
-	text-align:center;
-}
-
-@media (min-width: 320px) {
-	.scoreTable {
-		font-size:12px;
-	}
-	.orderTable {
-		font-size:16px;
-	}
-	.scheduleTable {
-		font-size:13.5px;
-	}
-	.teamScoreTable{
-		font-size:13px;
-	}
-}
-@media (min-width: 992px) {
-	.scoreTable {
-		font-size:14px;
-	}
-	.orderTable {
-		font-size:16px;
-	}
-	.scheduleTable {
-		font-size:16px;
-	}
-	.teamScoreTable{
-		font-size:16px;
-	}
-}
-</style>
 
 <?php if(strpos($_SERVER['PHP_SELF'],"admin")===FALSE){ ?>
 <script>
 var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?467b67d79e564f82043e28663359efb3";
+  hm.src = "https://hm.baidu.com/hm.js?8eef533602a9d104063a5d632f86bcfd";
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();

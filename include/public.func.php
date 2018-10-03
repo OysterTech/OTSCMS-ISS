@@ -3,14 +3,16 @@
  * @name 生蚝体育比赛管理系统-Web-公用函数库
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-10
- * @update 2018-08-16
+ * @update 2018-09-28
  */
 
 session_start();
 require_once 'PDOConn.php';
-define('ROOT_PATH','https://swim.xshgzs.com/');
-define('JS_PATH','https://swim.xshgzs.com/resource/js/');
-define('IMG_PATH','https://swim.xshgzs.com/resource/image/');
+
+define('ROOT_PATH','https://sport.xshgzs.com/');
+define('JS_PATH',ROOT_PATH.'resource/js/');
+define('IMG_PATH',ROOT_PATH.'resource/image/');
+define('CSS_PATH',ROOT_PATH.'resource/css/');
 
 
 /**
@@ -68,18 +70,18 @@ function returnAjaxData($code,$msg,$data=""){
 
 /**
  * checkLogin 后台检查登录状态
- * @param  INT 页面所需权限等级
+ * @param INT 页面所需权限等级
  */
 function checkLogin($level=0){
 	$returnUrl=urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);
 	
-	if(!isset($_SESSION['swim_admin_isLogin'])){
+	if(!isset($_SESSION['sport_admin_isLogin'])){
 		goToIndex("admin",$returnUrl);
-	}elseif($_SESSION['swim_admin_isLogin']!=1){
+	}elseif($_SESSION['sport_admin_isLogin']!=1){
 		goToIndex("admin",$returnUrl);
 	}
 	
-	if($level!=0 && $_SESSION['swim_admin_level']>$level){
+	if($level!=0 && $_SESSION['sport_admin_level']>$level){
 		goToIndex("admin",$returnUrl);
 	}
 }

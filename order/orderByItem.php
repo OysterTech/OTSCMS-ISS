@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-按项次查询分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-10
- * @update 2018-09-02
+ * @update 2018-09-22
  */
 	
 require_once '../include/public.func.php';
@@ -11,6 +11,11 @@ require_once '../include/public.func.php';
 $gamesInfo=isset($_SESSION['swim_gamesInfo'])?$_SESSION['swim_gamesInfo']:goToIndex();
 $gamesId=$gamesInfo['id'];
 $gamesName=$gamesInfo['name'];
+$gamesKind=$_SESSION['swim_gamesJson']['kind'];
+
+if($gamesKind=="田径"){
+	die(header("Location:".ROOT_PATH));
+}
 ?>
 
 <html>

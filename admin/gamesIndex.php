@@ -3,13 +3,13 @@
  * @name 生蚝体育比赛管理系统-Web-后台比赛首页
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-12
- * @update 2018-08-21
+ * @update 2018-09-22
  */
 	
 require_once '../include/public.func.php';
 checkLogin();
 
-$level=$_SESSION['swim_admin_level'];
+$level=$_SESSION['sport_admin_level'];
 $gamesId=isset($_GET['gamesId'])&&$_GET['gamesId']>=1?$_GET['gamesId']:goToIndex("admin");
 $gamesInfo=PDOQuery($dbcon,"SELECT * FROM games WHERE id=?",[$gamesId],[PDO::PARAM_INT]);
 
@@ -17,6 +17,9 @@ if($gamesInfo[1]!=1){
 	goToIndex("admin");
 }else{
 	$gamesName=$gamesInfo[0][0]['name'];
+	$_SESSION['sport_admin_gamesInfo']=json_decode($gamesInfo[0][0]['extra_json'],true);
+	$_SESSION['sport_admin_gamesJson']=json_decode($gamesInfo[0][0]['extra_json'],true);
+	$_SESSION['sport_admin_gamesSoft']=$_SESSION['sport_admin_gamesInfo']['software'];
 }
 
 ?>

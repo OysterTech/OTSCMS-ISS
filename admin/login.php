@@ -8,8 +8,8 @@
 
 require_once '../include/public.func.php';
 
-if(isset($_SESSION['swim_isLogin'])){
-	if($_SESSION['swim_isLogin']==1){
+if(isset($_SESSION['sport_isLogin'])){
+	if($_SESSION['sport_isLogin']==1){
 		header("Location:".ROOT_PATH."admin/gamesList.php");
 	}
 }
@@ -23,7 +23,7 @@ if(isset($_SESSION['swim_isLogin'])){
 <body>
 <div class="container">
 	<div class="col-md-6 col-md-offset-3">
-		<center><img src="<?=IMG_PATH;?>adminLogo.png" style="display: inline-block;height: auto;max-width: 100%;"></center><BR>
+		<center><img src="<?=IMG_PATH;?>adminLogo.png" style="display: inline-block;height: auto;max-width: 100%;"></center><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">登录 / 生蚝体育比赛信息查询系统后台</h3>
@@ -108,7 +108,7 @@ function toLogin(){
 				</font>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">返回 &gt;</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭 &gt;</button>
 			</div>
 		</div>
 	</div>

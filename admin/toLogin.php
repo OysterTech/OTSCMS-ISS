@@ -18,9 +18,9 @@ if(isset($_POST) && $_POST){
 		$sql2="UPDATE admin SET last_login=? WHERE user_name=?";
 		$query2=PDOQuery($dbcon,$sql2,[date("Y-m-d H:i:s"),$userName],[PDO::PARAM_STR,PDO::PARAM_STR]);
 		
-		$_SESSION['swim_admin_isLogin']=1;
-		$_SESSION['swim_admin_userName']=$userName;
-		$_SESSION['swim_admin_level']=$query[0][0]['level'];
+		$_SESSION['sport_admin_isLogin']=1;
+		$_SESSION['sport_admin_userName']=$userName;
+		$_SESSION['sport_admin_level']=$query[0][0]['level'];
 		die(returnAjaxData(200,"success",['url'=>ROOT_PATH.'admin/gamesList.php']));
 	}else{
 		die(returnAjaxData(0,"failedAuth"));

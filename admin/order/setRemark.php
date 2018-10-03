@@ -115,6 +115,8 @@ if(isset($_POST) && $_POST){
 		<button class="btn btn-primary" onclick="setRemark(<?=$scoreQuery[0][$i]['id'];?>,'DNS')">DNS弃权</button>
 		<?php }if($scoreQuery[0][$i]['remark']!="DSQ"){ ?>
 		<button class="btn btn-danger" onclick="setRemark(<?=$scoreQuery[0][$i]['id'];?>,'DSQ')">DSQ犯规</button>
+		<?php }if($scoreQuery[0][$i]['remark']!="TRI"){ ?>
+		<button class="btn btn-success" onclick="setRemark(<?=$scoreQuery[0][$i]['id'];?>,'TRI')">TRI测验</button>
 		<?php }if($scoreQuery[0][$i]['remark']!=""){ ?>
 		<button class="btn btn-success" onclick="setRemark(<?=$scoreQuery[0][$i]['id'];?>,'')">清空备注</button>
 		<?php } ?>

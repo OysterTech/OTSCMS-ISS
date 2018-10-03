@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-按项目查询成绩
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-11
- * @update 2018-09-04
+ * @update 2018-09-24
  */
 	
 require_once '../include/public.func.php';
@@ -52,7 +52,7 @@ $gamesName=$gamesInfo['name'];
 </table>
 
 <center><div style="width:96%;text-align: center;">
-	<div class="alert alert-info"><i class="fa fa-info-circle" aria-hidden="true"></i> 备注：DNS 弃权、DSQ 犯规、TRI测试</div>
+	<div class="alert alert-info"><i class="fa fa-info-circle" aria-hidden="true"></i> 备注：DNS 弃权、DSQ 犯规、TRI测试、DNF中退</div>
 </div><center>
 	
 <?php include('../include/footer.php'); ?>

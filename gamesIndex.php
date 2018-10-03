@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-比赛首页
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-09
- * @update 2018-08-19
+ * @update 2018-09-20
  */
 	
 require_once 'include/public.func.php';
@@ -18,8 +18,10 @@ if($gamesInfo[1]!=1){
 	$startDate=$gamesInfo[0][0]['start_date'];
 	$endDate=$gamesInfo[0][0]['end_date'];
 	$praise=$gamesInfo[0][0]['praise'];
+	$gamesJson=json_decode($gamesInfo[0][0]['extra_json'],true);
 	
 	$_SESSION['swim_gamesInfo']=$gamesInfo[0][0];
+	$_SESSION['swim_gamesJson']=$gamesJson;
 }
 ?>
 
@@ -31,6 +33,7 @@ if($gamesInfo[1]!=1){
 <body>
 
 <center><img src="<?=IMG_PATH;?>logo.jpg" style="display: inline-block;height: auto;max-width: 100%;" alt="生蚝体育比赛信息查询系统"></center>
+
 <h2 style="text-align: center;"><?=$gamesName;?></h2>
 <p style="text-align: center;font-size:21px;"><?=$startDate."~".$endDate;?> <a id="praise" onclick="praise();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>(<?=$praise;?>)</a></p>
 
@@ -54,13 +57,20 @@ if($gamesInfo[1]!=1){
 
 <br><br><br>
 
+<?php if($gamesJson['teamScore']=="0"){ ?>
+<div class="col-xs-12">
+	<a href="score.php" class="btn btn-success btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-trophy" aria-hidden="true"></i> 成 绩</a>
+</div>
+<?php }else{ ?>
 <div class="col-xs-6">
 	<a href="score.php" class="btn btn-success btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-trophy" aria-hidden="true"></i> 成 绩</a>
 </div>
 <div class="col-xs-6">
-	<a href="teamScoreTotal.php" class="btn btn-warning btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-users" aria-hidden="true"></i> 团 体 分</a>
-<br><br>
+	<a href="teamScore<?=$gamesJson['teamScore'];?>.php" class="btn btn-warning btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-users" aria-hidden="true"></i> 团 体 分</a>
 </div>
+<?php } ?>
+
+<br><br>
 
 <?php include 'include/footer.php'; ?>
 

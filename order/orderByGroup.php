@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-按项目查询分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-10
- * @update 2018-09-02
+ * @update 2018-09-22
  */
 	
 require_once '../include/public.func.php';
@@ -59,11 +59,16 @@ function search(){
 	sex=$("#sex").val();
 	groupName=$("#groupName").val();
 	name=$("#name").val();
+	isFinal=$("#isFinal").val();
+	
+	if(!isFinal){
+		isFinal=1;
+	}
 
 	$.ajax({
 		url:"getOrder.php",
 		type:"get",
-		data:{"orderBy":"group","gamesId":gamesId,"sex":sex,"groupName":groupName,"name":name},
+		data:{"orderBy":"group","gamesId":gamesId,"sex":sex,"groupName":groupName,"name":name,"isFinal":isFinal},
 		dataType:"json",
 		success:function(ret){
 			// 先清空表格和项目名

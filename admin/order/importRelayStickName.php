@@ -22,7 +22,7 @@ $itemId=0;
 $itemList=PDOQuery($dbcon,"SELECT * FROM item WHERE name LIKE '%接力%' AND games_id=?",[$gamesId],[PDO::PARAM_INT]);
 
 if($itemList[1]<1){
-	die('<script>alert("暂无接力项目！不开放录入棒次功能！");window.location.href="../order.php?gamesId='.$gamesId.'";</script>');
+	die('<script>alert("本比赛无接力项目！\n不开放录入棒次功能！");history.go(-1);</script>');
 }
 
 if(isset($_POST) && $_POST){
@@ -110,25 +110,25 @@ function update(id,shortName){
 	// 再分别输入每棒姓名
 	name1=prompt("请输入["+shortName+"]队的第一棒运动员姓名");
 	if(name1=="" || name1==null){
-		alert("未输入第一棒运动员姓名！录入失败！");
+		alert("未输入第一棒运动员姓名！\n录入失败，数据未保存！");
 		return false;
 	}
 
 	name2=prompt("请输入["+shortName+"]队的第二棒运动员姓名");
 	if(name2=="" || name2==null){
-		alert("未输入第二棒运动员姓名！录入失败！");
+		alert("未输入第二棒运动员姓名！\n录入失败，数据未保存！");
 		return false;
 	}
 
 	name3=prompt("请输入["+shortName+"]队的第三棒运动员姓名");
 	if(name3=="" || name3==null){
-		alert("未输入第三棒运动员姓名！录入失败！");
+		alert("未输入第三棒运动员姓名！\n录入失败，数据未保存！");
 		return false;
 	}
 
 	name4=prompt("请输入["+shortName+"]队的第四棒运动员姓名");
 	if(name4=="" || name4==null){
-		alert("未输入第四棒运动员姓名！录入失败！");
+		alert("未输入第四棒运动员姓名！\n录入失败，数据未保存！");
 		return false;
 	}
 

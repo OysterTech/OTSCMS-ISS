@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-处理查询分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-28
- * @update 2018-08-30
+ * @update 2018-09-22
  */
 
 require_once '../include/public.func.php';
@@ -16,12 +16,13 @@ $itemSql="SELECT id,sex,group_name,name AS item_name,scene,order_index FROM item
 if($orderBy=="item"){
 	$scene=isset($_GET['scene'])&&$_GET['scene']!=""?$_GET['scene']:die(returnAjaxData(0,"lackParam"));
 	$orderIndex=isset($_GET['orderIndex'])&&$_GET['orderIndex']!=""?$_GET['orderIndex']:die(returnAjaxData(0,"lackParam"));
-	$itemSql.="AND scene=$scene AND order_index=$orderIndex";
+	$itemSql.="AND scene='{$scene}' AND order_index='{$orderIndex}'";
 }elseif($orderBy=="group"){
 	$sex=isset($_GET['sex'])&&$_GET['sex']!=""?$_GET['sex']:die(returnAjaxData(0,"lackParam"));
 	$groupName=isset($_GET['groupName'])&&$_GET['groupName']!=""?$_GET['groupName']:die(returnAjaxData(0,"lackParam"));
 	$name=isset($_GET['name'])&&$_GET['name']!=""?$_GET['name']:die(returnAjaxData(0,"lackParam"));
-	$itemSql.="AND sex='{$sex}' AND group_name='{$groupName}' AND name='{$name}'";
+	$isFinal=isset($_GET['isFinal'])&&$_GET['isFinal']!=""?$_GET['isFinal']:die(returnAjaxData(0,"lackParam"));
+	$itemSql.="AND sex='{$sex}' AND group_name='{$groupName}' AND name='{$name}' AND is_final='{$isFinal}'";
 }
 
 // 查询项目数据

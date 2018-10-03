@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-修改秩序册
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-23
- * @update 2018-08-27
+ * @update 2018-10-01
  */
 	
 require_once '../../include/public.func.php';
@@ -19,22 +19,38 @@ if($gamesInfo[1]!=1){
 	$gamesName=$gamesInfo[0][0]['name'];
 }
 
+$gamesKind=$_SESSION['sport_admin_gamesJson']['kind'];
+
 $scene=0;
 $orderIndex=0;
 $sceneList=PDOQuery($dbcon,"SELECT DISTINCT(scene) FROM item WHERE games_id=? AND is_delete=0",[$gamesId],[PDO::PARAM_INT]);
 $orderIndexList=PDOQuery($dbcon,"SELECT DISTINCT(order_index) FROM item WHERE games_id=? AND is_delete=0",[$gamesId],[PDO::PARAM_INT]);
-$teamSql="SELECT id,short_name FROM team WHERE games_id=?";
+$teamSql="SELECT id,name,short_name FROM team WHERE games_id=?";
 $teamQuery=PDOQuery($dbcon,$teamSql,[$gamesId],[PDO::PARAM_INT]);
 
-if($sceneList[1]==0 && $orderIndexList[1]==0){
+$groupSql="SELECT DISTINCT(group_name) FROM item WHERE games_id=? AND is_delete=0 ORDER BY group_name";
+$groupQuery=PDOQuery($dbcon,$groupSql,[$gamesId],[PDO::PARAM_INT]);
+$nameSql="SELECT DISTINCT(name) FROM item WHERE games_id=? AND is_delete=0 ORDER BY name DESC";
+$nameQuery=PDOQuery($dbcon,$nameSql,[$gamesId],[PDO::PARAM_INT]);
+
+if($sceneList[1]==0 || $orderIndexList[1]==0 || $groupQuery[1]<1 || $nameQuery[1]<1){
 		die('<script>alert("暂未录入日程！");history.go(-1);</script>');
 }
 
 if(isset($_POST) && $_POST){
-	$scene=$_POST['scene'];
-	$orderIndex=$_POST['orderIndex'];
-	$itemSql="SELECT id,sex,group_name,name,scene,order_index FROM item WHERE games_id=? AND scene=? AND order_index=? AND is_delete=0";
-	$itemQuery=PDOQuery($dbcon,$itemSql,[$gamesId,$scene,$orderIndex],[PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_INT]);
+	if($gamesKind=="田径"){
+		$postGroupName=$_POST['groupName'];
+		$postName=$_POST['name'];
+		$postSex=$_POST['sex'];
+		$postIsFinal=$_POST['isFinal'];
+		$itemSql="SELECT id,sex,group_name,name,scene,order_index FROM item WHERE sex='{$postSex}' AND group_name='{$postGroupName}' AND name='{$postName}' AND is_final=$postIsFinal AND games_id=? AND is_delete=0";
+	}else{
+		$postScene=$_POST['scene'];
+		$postOrderIndex=$_POST['orderIndex'];
+		$itemSql="SELECT id,sex,group_name,name,scene,order_index FROM item WHERE scene={$postScene} AND order_index={$postOrderIndex} AND games_id=? AND is_delete=0";
+	}
+	
+	$itemQuery=PDOQuery($dbcon,$itemSql,[$gamesId],[PDO::PARAM_INT]);
 	
 	if($itemQuery[1]!=1){
 		die('<script>alert("无此项目！");window.location.href="'.$url.'";</script>');
@@ -65,6 +81,46 @@ if(isset($_POST) && $_POST){
 
 <!-- 查询表单 -->
 <form method="post">
+	<?php if($gamesKind=="田径"){ ?>
+	<!-- 田径-组别分类选择框 -->
+	<div class="col-xs-7">
+		<div class="form-group">
+			<select name="groupName" class="form-control">
+				<?php foreach($groupQuery[0] as $groupInfo){ ?>
+				<option value="<?=$groupInfo['group_name'];?>"><?=$groupInfo['group_name'];?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="col-xs-5">
+		<div class="form-group">
+			<select name="sex" class="form-control">
+				<option value="男子">男子</option>
+				<option value="女子">女子</option>
+				<option value="男女">男女</option>
+			</select>
+		</div>
+	</div>
+	<br>
+	<div class="col-xs-7">
+		<div class="form-group">
+			<select name="name" class="form-control">
+				<?php foreach($nameQuery[0] as $nameInfo){ ?>
+				<option value="<?=$nameInfo['name'];?>"><?=$nameInfo['name'];?></option>
+				<?php } ?>
+			</select>
+		</div>
+	</div>
+	<div class="col-xs-5">
+		<div class="form-group">
+			<select name="isFinal" class="form-control">
+				<option value="0">预赛</option>
+				<option value="1">决赛</option>
+			</select>
+		</div>
+	</div>
+	<!-- ./田径-组别分类选择框 -->
+	<?php }else{ ?>
 	<!-- 项次选择框 -->
 	<div class="col-xs-6">
 		<div class="input-group">
@@ -89,6 +145,7 @@ if(isset($_POST) && $_POST){
 		</div>
 	</div>
 	<!-- ./项次选择框 -->
+	<?php } ?>
 
 	<p style="line-height:8px;">&nbsp;</p>
 
@@ -189,7 +246,7 @@ function add(){
 	         +"<td><input id='runGroup_0' class='form-control'></td>"
 	         +"<td><input id='runway_0' class='form-control'></td>"
 	         +"<td><input id='name_0' class='form-control'></td>"
-	         +"<td><select id='teamId_0' class='form-control'><option value='-1' selected disabled>-- 请选择单位 --</option><?php foreach($teamQuery[0] as $teamInfo){ ?><option value='<?=$teamInfo['id'];?>'><?=$teamInfo['short_name'];?></option><?php } ?></select></td>"
+	         +"<td><select id='teamId_0' class='form-control'><option value='-1' selected disabled>-- 请选择单位 --</option><?php foreach($teamQuery[0] as $teamInfo){ ?><option value='<?=$teamInfo['id'];?>'><?=$teamInfo['short_name'];?>(<?=$teamInfo['name'];?>)</option><?php } ?></select></td>"
 	         +"<td><button onclick='saveAdd()' class='btn btn-success'>保存新增</button></td>"
 	         +"</tr>";
 	$("#table").append(tableHtml);

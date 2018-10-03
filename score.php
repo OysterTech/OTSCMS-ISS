@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-成绩查询
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-10
- * @update 2018-09-02
+ * @update 2018-09-20
  */
 	
 require_once 'include/public.func.php';
@@ -11,6 +11,7 @@ require_once 'include/public.func.php';
 $gamesInfo=isset($_SESSION['swim_gamesInfo'])?$_SESSION['swim_gamesInfo']:goToIndex();
 $gamesId=$gamesInfo['id'];
 $gamesName=$gamesInfo['name'];
+$gamesKind=$_SESSION['swim_gamesJson']['kind'];
 ?>
 
 <html>
@@ -30,8 +31,10 @@ $gamesName=$gamesInfo['name'];
 <hr>
 
 <center>
+	<?php if($gamesKind=="游泳"){ ?>
 	<a href="score/scoreByItem.php" class="btn btn-success" style="width:96%;font-weight:bold;font-size:21px;"><i class="fa fa-list " aria-hidden="true"></i> 按 场 / 项 次 查 询</a>
 	<br><br>
+	<?php } ?>
 	<a href="score/scoreByGroup.php" class="btn btn-success" style="width:96%;font-weight:bold;font-size:21px;"><i class="fa fa-users" aria-hidden="true"></i> 按 项 目 分 类 查 询</a>
 	<br><br>
 	<a href="score/scoreByAthlete.php" class="btn btn-success" style="width:96%;font-weight:bold;font-size:21px;"><i class="fa fa-user-o" aria-hidden="true"></i> 按 运 动 员 查 询</a>

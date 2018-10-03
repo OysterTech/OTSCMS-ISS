@@ -9,7 +9,7 @@
 $dbcon=null;
 $dbms="mysql";
 $host="localhost";
-$database="swim";
+$database="sport";
 $userName="root";
 $passWord="";
 $dsn="{$dbms}:host={$host};dbname={$database};charset=utf8";
@@ -38,7 +38,7 @@ function PDOQuery($dbconn,$sql,$pararray=[],$paratype=[]){
 	}
 	$dbo->execute();
 	//return $dbo->errorInfo();
-	return [$dbo->fetchAll(PDO::FETCH_ASSOC),$dbo->rowCount()];
+	return [$dbo->fetchAll(PDO::FETCH_ASSOC),$dbo->rowCount(),$dbo->errorInfo()];
 }
 
 

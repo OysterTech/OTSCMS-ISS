@@ -12,6 +12,7 @@ $gamesInfo=isset($_SESSION['swim_gamesInfo'])?$_SESSION['swim_gamesInfo']:goToIn
 $gamesId=$gamesInfo['id'];
 $gamesName=$gamesInfo['name'];
 $extraJson=json_decode($gamesInfo['extra_json'],TRUE);
+
 $fileJson=$extraJson['file'];
 ?>
 

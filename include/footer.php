@@ -27,6 +27,8 @@
 	<!-- 友情链接 -->
 	<p style="font-size:15px;line-height:26px;">
 		友情链接：<a href="http://swimming.sport.org.cn/" target="_blank" style="color:black;">中国游泳协会</a> | <a href="http://www.gdswim.org/" target="_blank" style="color:black;">广东省游泳协会</a>
+		<!-- ./友情链接 -->
+		
 		<br>
 		
 		<?php if(strpos($_SERVER['PHP_SELF'],"admin")===FALSE){ ?>
@@ -35,11 +37,10 @@
 		<a href="<?=ROOT_PATH;?>admin/logout.php" style="color:green;font-weight:bold;font-size:18px;">退 出 后 台</a>
 		<?php } ?>
 	</p>
-	<!-- ./友情链接 -->
 </center>
 
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="<?=JS_PATH;?>util.js"></script>
 
 <script>

@@ -38,6 +38,10 @@ $gamesKind=$_SESSION['swim_gamesJson']['kind'];
 	<a href="score/scoreByGroup.php" class="btn btn-success" style="width:96%;font-weight:bold;font-size:21px;"><i class="fa fa-users" aria-hidden="true"></i> 按 项 目 分 类 查 询</a>
 	<br><br>
 	<a href="score/scoreByAthlete.php" class="btn btn-success" style="width:96%;font-weight:bold;font-size:21px;"><i class="fa fa-user-o" aria-hidden="true"></i> 按 运 动 员 查 询</a>
+	<?php if(isset($_GET['t'])){ ?>
+	<hr>
+	<a href="../scoreAnalysis/index.php" class="btn btn-info" style="width:96%;font-weight:bold;font-size:21px;"><i class="fa fa-bar-chart" aria-hidden="true"></i> 所 有 比 赛 成 绩 分 析</a>
+	<?php } ?>
 </center>
 
 <hr>

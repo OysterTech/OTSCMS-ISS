@@ -152,7 +152,7 @@ function toUpdate(id){
 		success:function(ret){
 			if(ret.code==200){
 				alert("修改成功！");
-				location.reload();
+			//	location.reload();
 			}else{
 				console.log(ret);
 				alert("修改失败！！！\n数据未被保存！");

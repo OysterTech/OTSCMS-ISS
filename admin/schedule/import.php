@@ -154,7 +154,7 @@ function getFileExtension($MIME){
 <p style="line-height:8px;">&nbsp;</p>
 
 <!-- 查询表单 -->
-<form method="post" enctype="multipart/form-data">	
+<form method="post" enctype="multipart/form-data">
 	<!-- 文件上传框 -->
 	<center>
 	<div class="input-group" style="width:98%">

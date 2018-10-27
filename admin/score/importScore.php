@@ -73,12 +73,12 @@ if($sceneList[1]<1 || $orderIndexList[1]<1 || $groupQuery[1]<1 || $nameQuery[1]<
 			<select id="sex" name="sex" class="form-control">
 				<option value="男子">男子</option>
 				<option value="女子">女子</option>
-				<option value="男女">男女</option>
+				<option value="混合">混合</option>
 			</select>
 		</div>
 	</div>
 	<br>
-	<div class="col-xs-7">
+	<div class="col-xs-12">
 		<div class="form-group">
 			<select id="name" name="name" class="form-control">
 				<?php foreach($nameQuery[0] as $nameInfo){ ?>
@@ -87,14 +87,14 @@ if($sceneList[1]<1 || $orderIndexList[1]<1 || $groupQuery[1]<1 || $nameQuery[1]<
 			</select>
 		</div>
 	</div>
-	<div class="col-xs-5">
+	<!--div class="col-xs-5">
 		<div class="form-group">
 			<select id="isFinal" name="isFinal" class="form-control">
 				<option value="0">预赛</option>
 				<option value="1">决赛</option>
 			</select>
 		</div>
-	</div>
+	</div-->
 	<!-- ./田径-组别分类选择框 -->
 	<?php }else{ ?>
 	<!-- 项次选择框 -->

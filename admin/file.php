@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-后台资料
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-20
- * @update 2018-08-21
+ * @update 2018-10-09
  */
 
 require_once '../include/public.func.php';
@@ -21,6 +21,10 @@ if($gamesInfo[1]!=1){
 
 $extraJson=json_decode($gamesInfo[0][0]['extra_json'],true);
 $fileList=$extraJson['file'];
+
+if($fileList==null || $fileList==""){
+	$fileList=array();
+}
 
 // 上传处理
 if(isset($_POST) && $_POST){

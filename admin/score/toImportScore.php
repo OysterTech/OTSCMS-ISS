@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-导入成绩处理
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-18
- * @update 2018-09-24
+ * @update 2018-10-13
  */
 
 require_once '../../include/public.func.php';
@@ -24,8 +24,8 @@ if(isset($_POST) && $_POST){
 		$postGroupName=$_POST['groupName'];
 		$postName=$_POST['name'];
 		$postSex=$_POST['sex'];
-		$postIsFinal=$_POST['isFinal'];
-		$itemSql="SELECT id,sex,group_name,name,scene,order_index FROM item WHERE sex='{$postSex}' AND group_name='{$postGroupName}' AND name='{$postName}' AND is_final=$postIsFinal AND games_id=? AND is_delete=0";
+		//$postIsFinal=$_POST['isFinal'];
+		$itemSql="SELECT id,sex,group_name,name,scene,order_index FROM item WHERE sex='{$postSex}' AND group_name='{$postGroupName}' AND name='{$postName}' AND is_final=1 AND games_id=? AND is_delete=0";
 	}else{
 		$postScene=$_POST['scene'];
 		$postOrderIndex=$_POST['orderIndex'];
@@ -67,31 +67,32 @@ if(isset($_POST) && $_POST){
 			die($ret);
 		}
 	}
-	
-	if($extension=="xls"){
-		$objReader=PHPExcel_IOFactory::createReader('Excel5');
-	}elseif($extension=="xlsx"){
-		$objReader=PHPExcel_IOFactory::createReader('Excel2007');
-	}else{
-		$ret=returnAjaxData(3,"invaildExtension");
-		die($ret);
-	}
-	
-	$objPHPExcel=$objReader->load($dir.$name);
-	$Sheet=$objPHPExcel->getSheet(0);
 
-	// 取得总行数
-	$HighestRow=$Sheet->getHighestRow();
 	// 成功导入数量
 	$successRows=0;
 	// 提示需要标记的行数
 	$tipsRemarkRows=0;
 	$tipsRemarkNames=array();
+	$shouldSuccessRows=0;
 
-	// 循环读取Excel文件
 	// 根据不同编排软件服务商来导入
 	if($software=="mxx"){
 		// 梅雪雄软件格式
+		
+		if($extension=="xls"){
+			$objReader=PHPExcel_IOFactory::createReader('Excel5');
+		}elseif($extension=="xlsx"){
+			$objReader=PHPExcel_IOFactory::createReader('Excel2007');
+		}else{
+			$ret=returnAjaxData(3,"invaildExtension");
+			die($ret);
+		}
+
+		$objPHPExcel=$objReader->load($dir.$name);
+		$Sheet=$objPHPExcel->getSheet(0);
+
+		// 取得总行数
+		$HighestRow=$Sheet->getHighestRow();
 		$shouldSuccessRows=$HighestRow-1;
 		
 		for($i=2;$i<=$HighestRow;$i++){
@@ -118,24 +119,40 @@ if(isset($_POST) && $_POST){
 		}
 	}elseif($software=="jbt"){
 		// 江伯滔软件格式
-		$shouldSuccessRows=$HighestRow-2;
+		$file2=fopen($dir.$name,"r");
+		$m=array();$i=0;
+		while(!feof($file2)){
+			$c=fgetcsv($file2);
+			$c=explode(';',mb_convert_encoding($c[0],"UTF-8","GBK"));
+			array_push($m,$c);
+			$i++;
+		}
+		unset($m[$i-1],$m[0]);
+		foreach($m as $key=>$info){
+			foreach($info as $key2=>$info2){
+				if($key2!=0) $info[$key2]=substr($info2,1,strlen($info2)-2);
+			}
+			$m[$key]=$info;
+		}
+
+		$shouldSuccessRows=count($m);
 		
-		for($i=2;$i<$HighestRow;$i++){
+		foreach($m as $key=>$info){
 			$sql="UPDATE score SET rank=?,score=?,point=?,remark=? WHERE item_id=? AND name=? AND run_group=? AND runway=?";
 
 			// 获取单元格内容
-			$rank=$objPHPExcel->getActiveSheet()->getCell("A".$i)->getValue();
-			$runGroup=$objPHPExcel->getActiveSheet()->getCell("B".$i)->getValue();
-			$runway=$objPHPExcel->getActiveSheet()->getCell("C".$i)->getValue();
-			$name=$objPHPExcel->getActiveSheet()->getCell("D".$i)->getValue();
-			$score=$objPHPExcel->getActiveSheet()->getCell("F".$i)->getValue();
-			$point=$objPHPExcel->getActiveSheet()->getCell("G".$i)->getValue();
-			$DSQ=$objPHPExcel->getActiveSheet()->getCell("H".$i)->getValue();
-			$DNS=$objPHPExcel->getActiveSheet()->getCell("I".$i)->getValue();
-			$DNF=$objPHPExcel->getActiveSheet()->getCell("J".$i)->getValue();
-			$TRI=$objPHPExcel->getActiveSheet()->getCell("K".$i)->getValue();
-			$FNL=$objPHPExcel->getActiveSheet()->getCell("L".$i)->getValue();
-			$GR=$objPHPExcel->getActiveSheet()->getCell("M".$i)->getValue();
+			$rank=$info[0];
+			$runGroup=$info[1];
+			$runway=$info[2];
+			$name=$info[3];
+			$score=$info[5];
+			$point=$info[6];
+			$DSQ=$info[7];
+			$DNS=$info[8];
+			$DNF=$info[9];
+			$TRI=$info[10];
+			$FNL=$info[11];
+			$GR=$info[12];
 			
 			// 判断运动员标签
 			if($DSQ=="True"){
@@ -147,7 +164,7 @@ if(isset($_POST) && $_POST){
 			}elseif($TRI=="True"){
 				$remark="TRI";
 			}elseif($FNL=="True"){
-				// 暂不显示进决赛
+				// (临时)暂不显示进决赛
 				$remark="";
 			}elseif($GR=="True"){
 				$remark="GR";

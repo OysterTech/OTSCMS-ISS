@@ -23,7 +23,7 @@ if(isset($_SESSION['sport_isLogin'])){
 <body>
 <div class="container">
 	<div class="col-md-6 col-md-offset-3">
-		<center><img src="<?=IMG_PATH;?>adminLogo.png" style="display: inline-block;height: auto;max-width: 100%;"></center><br>
+		<a href="../ci"><center><img src="<?=IMG_PATH;?>adminLogo.png" style="display: inline-block;height: auto;max-width: 100%;"></center></a><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">登录 / 生蚝体育比赛信息查询系统后台</h3>

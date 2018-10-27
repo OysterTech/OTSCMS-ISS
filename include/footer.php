@@ -11,7 +11,7 @@
 	<!-- 页脚版权 -->
 	<p style="font-weight:bold;font-size:20px;line-height:26px;">
 	
-		&copy; <a href="https://www.xshgzs.com" target="_blank" style="font-size:21px;">生蚝科技</a> 2014-<?=date('Y');?>
+		&copy; <a href="https://www.xshgzs.com?from=sport" target="_blank" style="font-size:21px;">生蚝科技</a> 2014-<?=date('Y');?>
 		<a style="color:#FF7043" onclick='launchQQ()'><i class="fa fa-qq fa-lg" aria-hidden="true"></i></a>
 		<a style="color:#29B6F6" href="mailto:master@xshgzs.com"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
 		<a style="color:#AB47BC" href="https://github.com/OysterTech" target="_blank"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a>

@@ -35,7 +35,12 @@ if($gamesInfo[1]!=1){
 <center><img src="<?=IMG_PATH;?>logo.jpg" style="display: inline-block;height: auto;max-width: 100%;" alt="生蚝体育比赛信息查询系统"></center>
 
 <h2 style="text-align: center;"><?=$gamesName;?></h2>
-<p style="text-align: center;font-size:21px;"><?=$startDate."~".$endDate;?> <a id="praise" onclick="praise();"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>(<?=$praise;?>)</a></p>
+<p style="text-align: center;font-size:21px;font-weight:bold;color:#FF7043;">
+	<?php if($startDate==$endDate){echo "举办日期：".$startDate;}else{echo $startDate."~".$endDate;} ?>
+	<a id="praise" onclick="praise();">
+		<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>(<?=$praise;?>)
+	</a>
+</p>
 
 <hr>
 
@@ -52,7 +57,7 @@ if($gamesInfo[1]!=1){
 	<a href="order.php" class="btn btn-info btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-table" aria-hidden="true"></i> 分 组</a>
 </div>
 <div class="col-xs-6">
-	<a href="call.php" class="btn btn-block" style="background-color:#ffa6ff;font-weight:bold;font-size:21px;color:white;"><i class="fa fa-volume-up" aria-hidden="true"></i> 检 录</a>
+	<a <?php if($gamesId==4){ ?>onclick="callTips()"<?php }else{ ?>href="call.php"<?php } ?> class="btn btn-block" style="background-color:#ffa6ff;font-weight:bold;font-size:21px;color:white;"><i class="fa fa-volume-up" aria-hidden="true"></i> 检 录</a>
 </div>
 
 <br><br><br>
@@ -85,6 +90,31 @@ function praise(){
 		}
 	});
 }
+
+function callTips(){
+	$("#tips").html("本比赛暂未启用检录功能！");
+	$("#tipsModal").modal('show');
+	return false;
+}
 </script>
+
+<div class="modal fade" id="tipsModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span><span class="sr-only">Close</span></button>
+				<h3 class="modal-title" id="ModalTitle">温馨提示</h3>
+			</div>
+			<div class="modal-body">
+				<font color="red" style="font-weight:bold;font-size:24px;text-align:center;">
+					<p id="tips"></p>
+				</font>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭 &gt;</button>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

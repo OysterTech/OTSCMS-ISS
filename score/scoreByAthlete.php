@@ -31,9 +31,9 @@ if(isset($_POST) && $_POST){
 		$total=1;$nowGamesKey=0;
 		
 		// 给各比赛写入总成绩条数，以便合并单元格
-		for($i=0;$i<$totalScore;$i++){
+		for($i=0;$i<count($scoreQuery[0]);$i++){
 			// 如果下个成绩条还是当前比赛
-			if($i+1<=$totalScore && $scoreInfo[$i+1]['games_name']==$scoreInfo[$i]['games_name']){
+			if(isset($scoreInfo[$i+1]['games_name']) && $i+1<=$totalScore && $scoreInfo[$i+1]['games_name']==$scoreInfo[$i]['games_name']){
 				$total++;
 			}else{
 				$scoreQuery[0][$nowGamesKey]['total']=$total;

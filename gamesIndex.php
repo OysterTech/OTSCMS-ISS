@@ -3,13 +3,13 @@
  * @name 生蚝体育比赛管理系统-Web-比赛首页
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-09
- * @update 2018-09-20
+ * @update 2018-12-08
  */
 	
 require_once 'include/public.func.php';
 
 $gamesId=isset($_GET['gamesId'])&&$_GET['gamesId']>=1?$_GET['gamesId']:goToIndex();
-$gamesInfo=PDOQuery($dbcon,"SELECT * FROM games WHERE id=?",[$gamesId],[PDO::PARAM_INT]);
+$gamesInfo=PDOQuery($dbcon,"SELECT * FROM games WHERE is_show=1 AND id=?",[$gamesId],[PDO::PARAM_INT]);
 
 if($gamesInfo[1]!=1){
 	goToIndex();
@@ -72,6 +72,14 @@ if($gamesInfo[1]!=1){
 </div>
 <div class="col-xs-6">
 	<a href="teamScore<?=$gamesJson['teamScore'];?>.php" class="btn btn-warning btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-users" aria-hidden="true"></i> 团 体 分</a>
+</div>
+<?php } ?>
+
+<?php if(isset($gamesJson['swimmingAssociation'])){ ?>
+<br><br><br>
+
+<div class="col-xs-12">
+	<a class="btn btn-warning btn-block" onclick="alert('数据整理中，敬请期待！');" style="font-weight:bold;font-size:20px;">广 州 泳 协 年 度 优 秀 运 动 员</a>
 </div>
 <?php } ?>
 

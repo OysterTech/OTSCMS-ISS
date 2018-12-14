@@ -3,13 +3,13 @@
  * @name 生蚝体育比赛管理系统-Web-后台比赛列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-14
- * @update 2018-08-16
+ * @update 2018-12-12
  */
 	
 require_once '../include/public.func.php';
 checkLogin();
 
-$query=PDOQuery($dbcon,"SELECT * FROM games");
+$query=PDOQuery($dbcon,"SELECT * FROM games ORDER BY start_date DESC");
 ?>
 
 <html>
@@ -42,6 +42,11 @@ $query=PDOQuery($dbcon,"SELECT * FROM games");
 <?php } ?>
 
 </table>
+
+<hr>
+
+<a href="<?=ROOT_PATH;?>swimmingAssociation/eliteAthlete/adminStatistics.php" class="btn btn-warning" style="font-weight:bold;font-size:21px;width:98%"><i class="fa fa-trophy" aria-hidden="true"></i> 泳 协 专 区</a><br>
+
 
 <?php include '../include/footer.php'; ?>
 

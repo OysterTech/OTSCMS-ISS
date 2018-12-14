@@ -3,9 +3,10 @@
  * @name 生蚝体育比赛管理系统-Web-导入成绩处理
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-18
- * @update 2018-10-13
+ * @update 2018-11-03
  */
 
+header("Content-Type:text/html;charset=utf-8");
 require_once '../../include/public.func.php';
 checkLogin();
 
@@ -96,23 +97,29 @@ if(isset($_POST) && $_POST){
 		$shouldSuccessRows=$HighestRow-1;
 		
 		for($i=2;$i<=$HighestRow;$i++){
-			$sql="UPDATE score SET rank=?,score=?,point=?,allround_point=? WHERE item_id=? AND name=?";
 
 			// 获取单元格内容
 			$rank=$objPHPExcel->getActiveSheet()->getCell("P".$i)->getValue();
-			$name=$objPHPExcel->getActiveSheet()->getCell("V".$i)->getValue();
+			//$name=$objPHPExcel->getActiveSheet()->getCell("V".$i)->getValue();
 			$score=$objPHPExcel->getActiveSheet()->getCell("AC".$i)->getValue();
 			$point=$objPHPExcel->getActiveSheet()->getCell("R".$i)->getValue();
 			$allroundPoint=$objPHPExcel->getActiveSheet()->getCell("AD".$i)->getValue();
+			$runGroup=$objPHPExcel->getActiveSheet()->getCell("M".$i)->getValue();
+			$runway=$objPHPExcel->getActiveSheet()->getCell("N".$i)->getValue();
+
+			//$sql="UPDATE score SET rank='{$rank}',score='{$score}',point='{$point}' WHERE item_id='{$itemId}' AND run_group='{$runGroup}' AND runway='{$runway}'";
+			$sql="UPDATE score SET rank=?,score=?,point=?,allround_point=? WHERE item_id=? AND run_group=? AND runway=?";
 			
 			// 没成绩没排名，提醒加备注
 			if($score=="" && $rank==0){
 				$tipsRemarkRows++;
-				array_push($tipsRemarkNames,$name);
+				array_push($tipsRemarkNames,$runGroup.'/'.$runway);
 			}
 
 			// 修改成绩
-			$query=PDOQuery($dbcon,$sql,[$rank,$score,$point,$allroundPoint,$itemId,$name],[PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_STR]);
+			//$query=PDOQuery($dbcon,$sql);
+			$query=PDOQuery($dbcon,$sql,[$rank,$score,$point,$allroundPoint,$itemId,$runGroup,$runway],[PDO::PARAM_INT,PDO::PARAM_STR,PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_INT,PDO::PARAM_INT]);
+			
 			if($query[1]==1){
 				$successRows++;
 			}

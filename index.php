@@ -3,12 +3,12 @@
  * @name 生蚝体育比赛管理系统-Web-首页
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-09
- * @update 2018-09-28
+ * @update 2018-12-08
  */
 
 require_once 'include/public.func.php';
 
-$query=PDOQuery($dbcon,"SELECT * FROM games ORDER BY end_date DESC");
+$query=PDOQuery($dbcon,"SELECT * FROM games WHERE is_show=1 ORDER BY end_date DESC");
 ?>
 
 <html>

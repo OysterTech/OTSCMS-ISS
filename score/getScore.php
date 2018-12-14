@@ -34,7 +34,7 @@ if($itemQuery[1]==1){
 }
 
 // 查询成绩数据
-$scoreSql="SELECT a.rank,a.run_group,a.runway,a.name,a.score,a.point,a.allround_point,a.remark,b.short_name FROM score a,team b WHERE a.item_id=? AND a.team_id=b.id ORDER BY a.remark,a.rank,LENGTH(a.score),a.score,a.run_group,a.runway";
+$scoreSql="SELECT a.rank,a.run_group,a.runway,a.name,a.score,a.point,a.allround_point,a.remark,b.short_name FROM score a,team b WHERE a.item_id=? AND a.team_id=b.id ORDER BY a.remark,LENGTH(a.score),a.rank,a.score,a.run_group,a.runway";
 $scoreQuery=PDOQuery($dbcon,$scoreSql,[$itemId],[PDO::PARAM_INT]);
 
 // 返回数据

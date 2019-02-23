@@ -1,4 +1,4 @@
-# 生蚝体育比赛管理系统-信息查询网页端
+# 生蚝体育竞赛管理系统
 
 ---
 
@@ -6,13 +6,13 @@
 
 ▲ 主要功能：为比赛提供实时检录、日程、分组、成绩、团体分查询功能
 
-▲ 开发商：生蚝科技
+▲ 开发商：广州市生蚝科技有限公司
 
 ▲ 被授权方：广州君迪体育科技有限公司、广州市育才中学
 
-▲ 代码版本信息：***Build 10C81(10381)(2018-12-14)***
+▲ 代码版本信息：***Build 11372***
 
-▲ 系统版本信息：***V1.5***
+▲ 系统版本信息：***V2.0***
 
 ▲ 遵循协议：GNU GPLv3
 
@@ -22,13 +22,11 @@
 
 ▲ 网站首页：[`点此访问首页`](https://sport.xshgzs.com)
 
-▲ 示例后台请自行下载代码与SQL文件，示例帐号用户名super，密码123456
-
 ---
 
-## 待开发 TODO
+## V2.0后台
 
-▲ Excel导入团体
+正在开发中，部分功能尚未完工，敬请期待！
 
 ---
 
@@ -37,6 +35,14 @@
 * [`@zhangjingye03`](https://github.com/zhangjingye03) 提供的PDO二次开发函数库
 
 * [`PHPExcel`](https://github.com/PHPOffice/PHPExcel)，遵循`LGPL`协议
+
+* [`PhpSpreadsheet`](https://github.com/PHPOffice/PhpSpreadsheet)，遵循`LGPL`协议
+
+* [`CodeIgniter`](http://codeigniter.org.cn/) V2.0后台后端框架
+
+* [`Vue.js`](https://vuejs.org/) V2.0后台前端框架
+
+* [`AdminLTE`](https://github.com/almasaeed2010/AdminLTE) V2.0后台UI框架
 
 * [`Bootstrap 3.3`](https://getbootstrap.com/)，遵循`MIT`协议
 

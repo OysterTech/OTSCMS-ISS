@@ -1,9 +1,9 @@
 <?php
 /**
- * @name M-用户
+ * @name 生蚝体育竞赛管理系统后台-M-用户
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-20
- * @version 2018-03-14
+ * @version 2019-02-25
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -57,11 +57,11 @@ class User_model extends CI_Model {
 		$hashSalt=md5($salt);
 
 		if(sha1($pwd.$hashSalt)==$pwd_indb){
-			return "200";
+			return 200;
 		}elseif($status==0){
-			return "403";
+			return -1;
 		}else{
-			return "0";
+			return 403;
 		}
 	}
 }

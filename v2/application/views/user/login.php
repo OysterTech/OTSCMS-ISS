@@ -49,7 +49,7 @@
 				</center>
 			</div>
 			<div class="panel-footer" style="text-align: center;">
-				<span style="color: #56baed;line-height:28px;">本系统已整合统一身份认证<br>单点登录服务由 <a href="https://www.xshgzs.com?from=sportam2_0" target="_blank">生蚝科技</a> 提供</span>
+				<span style="color: #56baed;line-height:28px;">本系统已整合 生蚝科技统一身份认证<br>单点登录服务由 <a href="https://www.xshgzs.com?from=sportam2_0" target="_blank">生蚝科技</a> 提供</span>
 			</div>
 		</div>
 	</div>
@@ -144,31 +144,26 @@ function toLogin(){
 		unlockScreen();
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;
 	}
 	if(userName.length<4){
-		$("#tips").html("用户名长度有误！");
 		unlockScreen();
+		showModalTips("用户名长度有误！");
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;
 	}
 	if(pwd==""){
-		$("#tips").html("请输入密码！");
 		unlockScreen();
-		$("#userName").removeAttr("disabled");
+		showModalTips("请输入密码！");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;
 	}
 	if(pwd.length<6){
-		$("#tips").html("密码长度有误！");
 		unlockScreen();
+		showModalTips("密码长度有误！");
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;  
 	}
 
@@ -178,13 +173,12 @@ function toLogin(){
 		data:{<?=$this->ajax->showAjaxToken();?>,"userName":userName,"pwd":pwd},
 		dataType:"json",
 		error:function(e){
-			console.log(e);
+			console.log(JSON.stringify(e));
 			unlockScreen();
 			$("#userName").removeAttr("disabled");
 			$("#pwd").removeAttr("disabled");
-			$("#delModal").modal('hide');
-			$("#tips").html("服务器错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+e.status+"</font>");
-			$("#tipsModal").modal('show');
+			
+			showModalTips("服务器错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+e.status+"</font>");
 			return false;
 		},
 		success:function(ret){
@@ -194,34 +188,24 @@ function toLogin(){
 
 			if(ret.code==200){
 				window.location.href="<?=base_url('/');?>"
-			}else if(ret.message=="userForbidden"){
-				$("#tips").html("当前用户被禁用！<br>请联系管理员！");
-				$("#tipsModal").modal('show');
+			}else if(ret.code==1){
+				showModalTips("当前用户被禁用！<br>请联系管理员！");
 				return false;
-			}else if(ret.message=="invaildPwd"){
-				$("#tips").html("用户名或密码错误！");
-				$("#tipsModal").modal('show');
+			}else if(ret.code==4031){
+				showModalTips("用户名或密码错误！");
 				return false;
-			}else if(ret.message=="userForbidden"){
-				$("#tips").html("用户被禁用！<br>请联系管理员！");
-				$("#tipsModal").modal('show');
+			}else if(ret.code==3){
+				showModalTips("用户暂未激活！<br>请尽快进行激活！");
 				return false;
-			}else if(ret.message=="userNotActive"){
-				$("#tips").html("用户暂未激活！<br>请尽快进行激活！");
-				$("#tipsModal").modal('show');
+			}else if(ret.code==2){
+				showModalTips("获取角色信息失败！请联系管理员！");
 				return false;
-			}else if(ret.message=="noRoleInfo"){
-				$("#tips").html("获取角色信息失败！请联系管理员！");
-				$("#tipsModal").modal('show');
-				return false;
-			}else if(ret.code=="403"){
-				$("#tips").html("Token无效！<hr>Tips:请勿在提交前打开另一页面哦~");
-				$("#tipsModal").modal('show');
+			}else if(ret.code==403){
+				showModalTips("Token无效！<hr>Tips:请勿在提交前打开另一页面哦~");
 				return false;
 			}else{
 				console.log(ret);
-				$("#tips").html("系统错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+ret.code+"</font>");
-				$("#tipsModal").modal('show');
+				showModalTips("系统错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+ret.code+"</font>");
 				return false;
 			}
 		}  

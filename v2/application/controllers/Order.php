@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-C-Order分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-20
- * @version 2019-02-23
+ * @version 2019-02-27
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -44,11 +44,11 @@ class Order extends CI_Controller {
 	}
 
 
-	public function setAthleteMark()
+	public function setAthleteRemark()
 	{
 		$this->safe->checkIsInGames();
 		$this->ajax->makeAjaxToken();
-		$this->load->view('order/setAthleteMark',['gamesId'=>$this->gamesId]);
+		$this->load->view('order/setAthleteRemark',['gamesId'=>$this->gamesId]);
 	}
 
 
@@ -156,7 +156,7 @@ class Order extends CI_Controller {
 		$token=$this->ajax->makeAjaxToken();
 
 		$gamesInfo=$this->games->search("detail",$this->gamesId);
-		$gamesName=$gamesInfo[0]['name'];
+		$gamesName=$gamesInfo['name'];
 		
 		$this->load->view('order/import',['token'=>$token,'gamesName'=>$gamesName]);
 	}
@@ -175,7 +175,7 @@ class Order extends CI_Controller {
 		//$deleteQuery=$this->db->query('DELETE FROM score a,item b WHERE a.item_id=b.id AND b.games_id=?',[$this->gamesId]);
 
 		$this->load->helper('file_helper');
-		$dir="../filebox/".$this->gamesId."/";
+		$dir="../filebox/".$this->gamesId."/data/";
 
 		foreach($_FILES['myfile']["error"] as $key => $error){
 			if($error == UPLOAD_ERR_OK){

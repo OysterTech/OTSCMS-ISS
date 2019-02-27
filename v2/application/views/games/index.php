@@ -23,7 +23,7 @@
 <div id="app" class="content-wrapper">
 	<!-- 头部(显示页面名称和路径) -->
 	<section class="content-header">
-		<h1><?=$info['name'];?></h1>
+		<h1><?=$gamesName;?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=base_url('dashborad');?>"><i class="fa fa-dashboard"></i> <?=$this->setting->get('systemName'); ?></a></li>
 			<li class="active">赛事管理</li>

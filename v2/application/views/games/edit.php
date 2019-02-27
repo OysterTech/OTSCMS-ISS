@@ -52,7 +52,6 @@
 					<input class="form-control" id="endDate" onkeyup='if(event.keyCode==13 || this.value.length==8)$("#venue").focus();' value="<?=str_replace('-','',$info['end_date']);?>">
 					<p class="help-block">请直接输入<font color="green" style="font-weight:bold;font-size:16px;">8</font>位数字 (如：<?=date('Ymd');?>)</p>
 				</div>
-				<br>
 				<div class="form-group">
 					<label for="venue">比赛地点</label>
 					<input class="form-control" id="venue" onkeyup='if(event.keyCode==13)$("#software").focus();' value="<?=$gamesJson['venue'];?>">

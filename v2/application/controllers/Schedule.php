@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-C-Schedule日程
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-10
- * @version 2019-02-23
+ * @version 2019-02-27
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -16,8 +16,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Xls;
 class Schedule extends CI_Controller {
 
 	public $sessPrefix;
-	public $nowUserID;
-	public $nowUserName;
 	public $gamesId;
 	public $API_PATH;
 
@@ -26,9 +24,7 @@ class Schedule extends CI_Controller {
 		parent::__construct();
 
 		$this->safe->checkPermission();
-		
 		$this->sessPrefix=$this->safe->getSessionPrefix();
-
 		$this->API_PATH=$this->setting->get('apiPath');
 		$this->nowUserID=$this->session->userdata($this->sessPrefix.'userID');
 		$this->nowUserName=$this->session->userdata($this->sessPrefix.'userName');
@@ -54,12 +50,18 @@ class Schedule extends CI_Controller {
 		// 循环查找该场次的项目
 		foreach($sceneInfo as $key=>$scene){
 			$sceneId=$scene['scene'];
-			$sceneItemQuery=$this->db->query("SELECT * FROM item WHERE games_id=? AND scene=? AND is_delete=0 ORDER BY order_index",[$this->gamesId,$sceneId]);
+
+				$sceneItemQuery=$this->db->where('games_id',$this->gamesId)
+			         ->where('scene',$sceneId)
+			         ->where('is_delete',0)
+			         ->order_by('order_index')
+			         ->get('item');
+			           
 			$sceneItemInfo=$sceneItemQuery->result_array();
 			$sceneInfo[$key]['itemInfo']=$sceneItemInfo;
 		}
 		
-		$this->load->view('schedule/list',['info'=>$gamesInfo[0],'gamesJson'=>$gamesInfo[0]['extra_json'],'sceneInfo'=>$sceneInfo]);
+		$this->load->view('schedule/list',['info'=>$gamesInfo,'gamesJson'=>$gamesInfo['gamesJson'],'sceneInfo'=>$sceneInfo]);
 	}
 
 
@@ -74,7 +76,7 @@ class Schedule extends CI_Controller {
 			header('location:'.base_url('/'));
 		}
 		
-		$this->load->view('games/edit',['info'=>$gamesInfo[0],'gamesJson'=>$gamesInfo[0]['extra_json']]);
+		$this->load->view('games/edit',['info'=>$gamesInfo,'gamesJson'=>$gamesInfo['gamesJson']]);
 	}
 
 
@@ -190,7 +192,7 @@ class Schedule extends CI_Controller {
 		}
 		
 		$gamesInfo=$this->games->search("detail",$this->gamesId);
-		$gamesJson=$gamesInfo[0]['extra_json'];
+		$gamesJson=$gamesInfo['gamesJson'];
 		$gamesJson['scene'][$sceneId]=$time;
 		$json=json_encode($gamesJson);
 		
@@ -210,7 +212,7 @@ class Schedule extends CI_Controller {
 		$token=$this->ajax->makeAjaxToken();
 		
 		$gamesInfo=$this->games->search("detail",$this->gamesId);
-		$gamesName=$gamesInfo[0]['name'];
+		$gamesName=$gamesInfo['name'];
 		
 		$this->load->view('schedule/import',['token'=>$token,'gamesName'=>$gamesName]);
 	}
@@ -228,7 +230,7 @@ class Schedule extends CI_Controller {
 			returnAjaxData(1,'have Schedule',[$duplicate]);
 		}*/
 
-		$dir="../filebox/".$this->gamesId."/";
+		$dir="../filebox/".$this->gamesId."/data/";
 
 		foreach($_FILES['myfile']["error"] as $key => $error){
 			if($error == UPLOAD_ERR_OK){

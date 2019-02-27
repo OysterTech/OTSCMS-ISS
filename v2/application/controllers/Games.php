@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-C-Games比赛
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-02
- * @version 2019-02-23
+ * @version 2019-02-26
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -11,8 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Games extends CI_Controller {
 
 	public $sessPrefix;
-	public $nowUserID;
-	public $nowUserName;
 	public $gamesId;
 	public $API_PATH;
 
@@ -24,8 +22,6 @@ class Games extends CI_Controller {
 		$this->sessPrefix=$this->safe->getSessionPrefix();
 
 		$this->API_PATH=$this->setting->get('apiPath');
-		$this->nowUserID=$this->session->userdata($this->sessPrefix.'userID');
-		$this->nowUserName=$this->session->userdata($this->sessPrefix.'userName');
 		$this->gamesId=$this->session->userdata($this->sessPrefix.'gamesId');
 	}
 
@@ -38,9 +34,9 @@ class Games extends CI_Controller {
 		}
 		
 		$this->session->set_userdata($this->sessPrefix.'gamesId',$gamesId);
-		$this->session->set_userdata($this->sessPrefix.'gamesName',$gamesInfo[0]['name']);
+		$this->session->set_userdata($this->sessPrefix.'gamesName',$gamesInfo['name']);
 		
-		$this->load->view('games/index',['info'=>$gamesInfo[0],'gamesJson'=>$gamesInfo[0]['extra_json']]);
+		$this->load->view('games/index',['gamesName'=>$gamesInfo['name']]);
 	}
 
 
@@ -54,8 +50,9 @@ class Games extends CI_Controller {
 			header('location:'.base_url('/'));
 		}
 		
-		$this->load->view('games/edit',['info'=>$gamesInfo[0],'gamesJson'=>$gamesInfo[0]['extra_json']]);
+		$this->load->view('games/edit',['info'=>$gamesInfo,'gamesJson'=>$gamesInfo['gamesJson']]);
 	}
+	
 
 	public function toEdit()
 	{
@@ -77,12 +74,11 @@ class Games extends CI_Controller {
 		}
 		
 		$gamesInfo=$this->games->search("detail",$this->gamesId);
-		$gamesInfo=$gamesInfo[0];
-		$extraJson=$gamesInfo['extra_json'];
-		$extraJson['venue']=$venue;
-		$extraJson['software']=$software;
-		$extraJson['teamScore']=$teamScore;
-		$gamesJson=json_encode($extraJson);
+		$gamesJson=$gamesInfo['gamesJson'];
+		$gamesJson['venue']=$venue;
+		$gamesJson['software']=$software;
+		$gamesJson['teamScore']=$teamScore;
+		$gamesJson=json_encode($gamesJson);
 		
 		$sql="UPDATE games SET name=?,start_date=?,end_date=?,extra_json=? WHERE id=?";
 		$query=$this->db->query($sql,[$name,$startDate,$endDate,$gamesJson,$this->gamesId]);

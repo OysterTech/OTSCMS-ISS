@@ -3,7 +3,7 @@
  * @name 生蚝科技统一身份认证平台-C-API-用户
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-01-19
- * @version 2019-01-22
+ * @version 2019-02-24
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -22,10 +22,10 @@ class API_User extends CI_Controller {
 	public function resetPassword()
 	{
 		$auth=$this->safe->checkAuth('api',substr($this->input->server('HTTP_REFERER'),strpos($this->input->server('HTTP_REFERER'),base_url())+strlen(base_url())));
-		if($auth!=true) $this->ajax->returnData(403,"no Permission");
+		if($auth!=true) returnAjaxData(403,"no Permission");
 
 		$userId=inputPost('userId',0,1);
-		if($userId==$this->session->userdata($this->sessPrefix.'user_id')) $this->ajax->returnData(400,"cannot Operate own");
+		if($userId==$this->session->userdata($this->sessPrefix.'user_id')) returnAjaxData(400,"cannot Operate own");
 
 		$password=mt_rand(12345678,98765432);
 		$salt=getRanSTR(8);
@@ -33,42 +33,42 @@ class API_User extends CI_Controller {
 
 		$query=$this->db->update('user',array('password'=>$hash,'salt'=>$salt),array('id'=>$userId));
 		
-		if($query==true) $this->ajax->returnData(200,"success",['password'=>$password]);
-		else $this->ajax->returnData(500,"database Error");
+		if($query==true) returnAjaxData(200,"success",['password'=>$password]);
+		else returnAjaxData(500,"database Error");
 	}
 
 
 	public function delete()
 	{
 		$auth=$this->safe->checkAuth('api',substr($this->input->server('HTTP_REFERER'),strpos($this->input->server('HTTP_REFERER'),base_url())+strlen(base_url())));
-		if($auth!=true) $this->ajax->returnData(403,"no Permission");
+		if($auth!=true) returnAjaxData(403,"no Permission");
 
 		$userId=inputPost('userId',0,1);
-		if($userId==$this->session->userdata($this->sessPrefix.'user_id')) $this->ajax->returnData(400,"cannot Operate own");
+		if($userId==$this->session->userdata($this->sessPrefix.'user_id')) returnAjaxData(400,"cannot Operate own");
 
 		$query=$this->db->delete('user',array('id'=>$userId));
-		if($query==true) $this->ajax->returnData(200,"success");
-		else $this->ajax->returnData(500,"database Error");
+		if($query==true) returnAjaxData(200,"success");
+		else returnAjaxData(500,"database Error");
 	}
 
 
 	public function getAllUser()
 	{
 		$query=$this->db->query("SELECT a.id,a.union_id AS unionId,a.user_name AS userName,a.nick_name AS nickName,b.name AS roleName FROM user a,role b WHERE a.role_id=b.id");
-		$this->ajax->returnData(200,"success",['list'=>$query->result_array()]);
+		returnAjaxData(200,"success",['list'=>$query->result_array()]);
 	}
 
 
 	public function checkDuplicate($method='',$value='')
 	{
 		if($method=='' || $value==''){
-			$this->ajax->returnData(0,"lack Param");
+			returnAjaxData(0,"lack Param");
 		}else if($method=="userName"){
 			$this->db->where('user_name', $value);
 		}else if($method=="phone"){
 			$this->db->where('phone', $value);
 		}else{
-			$this->ajax->returnData(1,"Invaild Method");
+			returnAjaxData(1,"Invaild Method");
 		}
 
 		$query=$this->db->get('user');
@@ -120,29 +120,29 @@ class API_User extends CI_Controller {
 		}
 
 		if($query4==true){
-			$this->ajax->returnData(200,"success");
+			returnAjaxData(200,"success");
 		}else{
-			$this->ajax->returnData(5,"changeError");
+			returnAjaxData(5,"changeError");
 		}
 	}
 
 
 	public function getUserInfo()
 	{
-		$method=isset($_POST['method'])&&$_POST['method']!=""?$_POST['method']:$this->ajax->returnData(0,"lack Param");
+		$method=isset($_POST['method'])&&$_POST['method']!=""?$_POST['method']:returnAjaxData(0,"lack Param");
 
 		if($method=="id"){
-			$id=isset($_POST['id'])&&strlen($_POST['id'])>=1?$_POST['id']:$this->ajax->returnData(0,"lack Param");
+			$id=isset($_POST['id'])&&strlen($_POST['id'])>=1?$_POST['id']:returnAjaxData(0,"lack Param");
 			$query=$this->db->query('SELECT a.user_name AS userName,a.nick_name AS nickName,a.phone,a.email,b.name AS roleName FROM user a,role b WHERE a.id=? AND a.role_id=b.id',[$id]);
 
 			if($query->num_rows()!=1){
-				$this->ajax->returnData(1,'no User');
+				returnAjaxData(1,'no User');
 			}else{
 				$list=$query->result_array();
-				$this->ajax->returnData(200,'success',['userInfo'=>$list[0]]);
+				returnAjaxData(200,'success',['userInfo'=>$list[0]]);
 			}
 		}/*else if($method=="api"){
-			$token=isset($_POST['token'])&&$_POST['token']!=""?$_POST['token']:$this->ajax->returnData(0,"lack Param");
+			$token=isset($_POST['token'])&&$_POST['token']!=""?$_POST['token']:returnAjaxData(0,"lack Param");
 			$this->db->select('user_id');
 			$query=$this->db->get_where('login_token',array('token'=>$token));
 
@@ -152,18 +152,18 @@ class API_User extends CI_Controller {
 				$userInfoQuery=$this->db->query('SELECT,a.user_name AS userName,a.nick_name AS nickName,a.phone,a.email,b.name AS roleName FROM user a,role b WHERE a.id=? AND a.role_id=b.id',[$userId]);
 
 				if($userInfoQuery->num_rows()!=1){
-					$this->ajax->returnData(1,"no User");
+					returnAjaxData(1,"no User");
 				}else{
 					$userInfoList=$userInfoQuery->result_array();
 					$this->db->where('token',$token);
 					$this->db->delete('login_token');
-					$this->ajax->returnData(200,"success",['userInfo'=>$userInfoList[0]]);
+					returnAjaxData(200,"success",['userInfo'=>$userInfoList[0]]);
 				}
 			}else{
-				$this->ajax->returnData(403,"failed To Auth");
+				returnAjaxData(403,"failed To Auth");
 			}
 		}*/else{
-			$this->ajax->returnData(2,"Invaild Method");
+			returnAjaxData(2,"Invaild Method");
 		}
 	}
 }

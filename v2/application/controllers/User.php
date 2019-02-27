@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-C-用户
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-19
- * @version 2019-02-23
+ * @version 2019-02-25
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -59,7 +59,7 @@ class User extends CI_Controller {
 		array_push($updateData,$nickName);
 
 		if($oldPwd!=""){
-			$validateOldPwd=$this->User_model->validateUser($this->nowUserID,"",$oldPwd);
+			$validateOldPwd=$this->user->validateUser($this->nowUserID,"",$oldPwd);
 
 			if($validateOldPwd=="200"){
 				$salt=random_string('alnum');
@@ -69,11 +69,9 @@ class User extends CI_Controller {
 				$sql.="password=?,salt=?,";
 				array_push($updateData,$hashPwd,$salt);
 			}elseif($validateOldPwd=="403"){
-				$ret=$this->ajax->returnData("3","userForbidden");
-				die($ret);
+				returnAjaxData(3,"userForbidden");
 			}else{
-				$ret=$this->ajax->returnData("4","invaildPwd");
-				die($ret);
+				returnAjaxData(4,"invaildPwd");
 			}
 		}
 
@@ -82,11 +80,9 @@ class User extends CI_Controller {
 		$query=$this->db->query($sql,$updateData);
 
 		if($this->db->affected_rows()==1){
-			$ret=$this->ajax->returnData("200","success");
-			die($ret);
+			returnAjaxData("200","success");
 		}else{
-			$ret=$this->ajax->returnData("0","updateFailed");
-			die($ret);
+			returnAjaxData("0","updateFailed");
 		}
 	}
 
@@ -94,7 +90,6 @@ class User extends CI_Controller {
 	public function login()
 	{
 		$this->ajax->makeAjaxToken();
-
 		$this->load->view('user/login');
 	}
 
@@ -107,28 +102,25 @@ class User extends CI_Controller {
 		$userName=$this->input->post('userName');
 		$pwd=$this->input->post('pwd');
 
-		$validate=$this->User_model->validateUser(0,$userName,$pwd);
+		$validate=$this->user->validateUser(0,$userName,$pwd);
 
 		if($validate=="200"){
-			$userInfo=$this->User_model->getUserInfoByUserName($userName);
+			$userInfo=$this->user->getUserInfoByUserName($userName);
 			$userID=$userInfo['id'];
 			$nickName=$userInfo['nick_name'];
 			$roleID=$userInfo['role_id'];
 			$status=$userInfo['status'];
 			
 			if($status==0){
-				$ret=$this->ajax->returnData("3","userForbidden");
-				die($ret);
+				returnAjaxData(1,"user Forbidden");
 			}elseif($status==2){
-				$ret=$this->ajax->returnData("4","userNotActive");
-				die($ret);
+				returnAjaxData(3,"user Not Active");
 			}
 			
 			// 获取角色名称
 			$roleQuery=$this->db->query('SELECT name FROM role WHERE id=?',[$roleID]);
 			if($roleQuery->num_rows()!=1){
-				$ret=$this->ajax->returnData("2","noRoleInfo");
-				die($ret);
+				returnAjaxData(2,"noRoleInfo");
 			}
 			
 			$roleList=$roleQuery->result_array();
@@ -143,14 +135,11 @@ class User extends CI_Controller {
 
 			$this->db->query("UPDATE user SET last_login=? WHERE id=?",[date("Y-m-d H:i:s"),$userID]);
 			
-			$ret=$this->ajax->returnData("200","success");
-			die($ret);
-		}elseif($validate=="403"){
-			$ret=$this->ajax->returnData("1","userForbidden");
-			die($ret);
+			returnAjaxData(200,"success");
+		}elseif($validate==-1){
+			returnAjaxData(1,"user Forbidden");
 		}else{
-			$ret=$this->ajax->returnData("0","invaildPwd");
-			die($ret);
+			returnAjaxData(4031,"invaild Password");
 		}
 	}
 	

@@ -1,14 +1,14 @@
 <?php
 /**
-* @name A-项目API
+* @name 生蚝体育竞赛管理系统后台-A-项目API
 * @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-10-21
-* @version 2018-10-21
+* @version 2019-02-26
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class API_item extends CI_Controller {
+class API_Item extends CI_Controller {
 
 	public $sessPrefix;
 	
@@ -22,23 +22,66 @@ class API_item extends CI_Controller {
 
 	public function getOrder(){
 		$this->safe->checkIsInGames();
-
-		$token=$this->input->post('token');
-		$this->ajax->checkAjaxToken($token);
+		$this->ajax->checkAjaxToken(inputPost('token'));
 		
 		$gamesId=$this->session->userdata($this->sessPrefix.'gamesId');
-		$scene=$this->input->post('scene');
+		$scene=inputPost('scene');
+		
 		$sql="SELECT * FROM item WHERE games_id=? AND scene=? AND is_delete=0";
 		
 		$query=$this->db->query($sql,[$gamesId,$scene]);
 		$data=$query->result_array();
 				
 		if(count($data)>=1){
-			$ret=$this->ajax->returnData("200","success",['data'=>$data]);
-			die($ret);
+			returnAjaxData(200,"success",['data'=>$data]);
 		}else{
-			$ret=$this->ajax->returnData("0","searchFailed");
-			die($ret);
+			returnAjaxData(500,"failed to Search");
+		}
+	}
+	
+	
+	public function get()
+	{
+		$gamesId=inputGet('gamesId',0,1);
+		$type=inputGet('type',0,1);
+		
+		if($type=='scene'){
+			// 查找所有场次
+			$sceneQuery=$this->db->query("SELECT DISTINCT(scene) FROM item WHERE games_id=? AND is_delete=0",[$gamesId]);
+			$sceneList=$sceneQuery->result_array();
+			returnAjaxData(200,'success',['total'=>$sceneQuery->num_rows(),'sceneList'=>$sceneList]);
+		}elseif($type=='item'){
+			$scene=inputGet('scene',0,1);
+			$kind=inputGet('kind',1,1);
+
+			$sql='SELECT * FROM item WHERE games_id=? AND is_delete=0 AND scene=? ';
+			$sql.=$kind!=''?'AND kind="'.$kind.'" ':'';
+			$sql.='ORDER BY order_index';
+			$query=$this->db->query($sql,[$gamesId,$scene]);
+			$list=$query->result_array();
+	returnAjaxData(200,'success',['total'=>$query->num_rows(),'itemList'=>$list]);
+		}elseif($type=='all'){
+			// 查找所有场次
+			$sceneQuery=$this->db->query("SELECT DISTINCT(scene) FROM item WHERE games_id=? AND is_delete=0",[$gamesId]);
+			$sceneInfo=$sceneQuery->result_array();
+		
+			// 循环查找该场次的项目
+			foreach($sceneInfo as $key=>$scene){
+				$sceneId=$scene['scene'];
+
+				$sceneItemQuery=$this->db->where('games_id',$gamesId)
+			          ->where('scene',$sceneId)
+			          ->where('is_delete',0)
+			          ->order_by('order_index')
+			          ->get('item');
+			           
+				$sceneItemInfo=$sceneItemQuery->result_array();
+				$sceneInfo[$key]['itemInfo']=$sceneItemInfo;
+			}
+		
+			returnAjaxData(200,'success',['sceneInfo'=>$sceneInfo]);
+		}else{
+			returnAjaxData(400,'invaild Type');
 		}
 	}
 }

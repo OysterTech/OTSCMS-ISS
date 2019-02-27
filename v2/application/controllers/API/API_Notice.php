@@ -3,7 +3,7 @@
  * @name 生蚝科技统一身份认证平台-C-API-通知
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-01-19
- * @version 2019-02-14
+ * @version 2019-02-24
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -22,7 +22,7 @@ class API_Notice extends CI_Controller {
 	public function get()
 	{
 		$type=inputGet('type',0,1);
-		$userId=$this->session->userdata($this->sessPrefix.'userID')!=null?$this->session->userdata($this->sessPrefix.'userID'):$this->ajax->returnData(403,"Not Login");
+		$userId=$this->session->userdata($this->sessPrefix.'userID')!=null?$this->session->userdata($this->sessPrefix.'userID'):returnAjaxData(403,"Not Login");
 		$sql="SELECT a.*,b.nick_name AS publisher FROM notice a,user b WHERE a.publisher_id=b.id AND (receiver='0' OR receiver LIKE '%".$userId."%') ";
 
 		switch($type){
@@ -40,10 +40,10 @@ class API_Notice extends CI_Controller {
 				$sql.="AND a.id=".$id;
 				break;
 			default:
-				$this->ajax->returnData(1,"Invaild Type");
+				returnAjaxData(1,"Invaild Type");
 		}
 
 		$query=$this->db->query($sql);
-		$this->ajax->returnData(200,"success",['list'=>$query->result_array()]);
+		returnAjaxData(200,"success",['list'=>$query->result_array()]);
 	}
 }

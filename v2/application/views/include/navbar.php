@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-导航栏
  * @author Jerry Cheung <master@smhgzs.com>
  * @since 2018-12-31
- * @version 2019-01-20
+ * @version 2019-02-26
  */
 ?>
 
@@ -11,7 +11,7 @@
 
 <div id="header">
 <header class="main-header">
-	<a v-bind:href="[rootUrl]" class="logo">
+	<a v-bind:href="[rootUrl+'dashborad']" class="logo">
 		<span class="logo-mini"><img src="https://www.xshgzs.com/resource/index/images/logo2.png" style="width:85%"></span>
 		<span class="logo-lg"><img src="https://www.xshgzs.com/resource/index/images/logo2.png" style="width:20%"> <b>生蚝科技</b></span>
 	</a>
@@ -52,8 +52,9 @@
 						<!-- Menu Footer-->
 						<li class="user-footer">
 							<div class="pull-left">
-								<a v-bind:href="[rootUrl+'profile/index']" class="btn btn-default btn-flat">个人中心</a>
-								<a data-toggle="modal" data-target="#changePasswordModal" class="btn btn-default btn-flat">修改密码</a>
+								<!--a v-bind:href="[rootUrl+'profile/index']" class="btn btn-default btn-flat">个人中心</a-->
+								<!--a data-toggle="modal" data-target="#changePasswordModal" class="btn btn-default btn-flat">修改密码</a-->
+								<a class="btn btn-default btn-flat" onclick='showModalTips("很抱歉，修改密码功能因业务调整暂时关闭！敬请谅解！<br><br>如有疑问，请咨询管理员")'>修改密码</a>
 							</div>
 							<div class="pull-right">
 								<button data-toggle="modal" data-target="#logoutModal" class="btn btn-default btn-flat">登出</button>
@@ -138,10 +139,21 @@
 		<!-- 父菜单 -->
 		<ul class="sidebar-menu" data-widget="tree">
 			<li>
-				<a href="<?php if($this->session->userdata($this->sessPrefix.'gamesId')>=1) echo base_url('games/index/').$this->session->userdata($this->sessPrefix.'gamesId');?>">当前管理比赛：<b style="color:#00EC00"><?=$this->session->userdata($this->sessPrefix.'gamesName');?></b></a>
+				<a href="<?php if($this->session->userdata($this->sessPrefix.'gamesId')>=1) echo base_url('games/index/').$this->session->userdata($this->sessPrefix.'gamesId');?>">当前比赛：<b style="color:#00EC00">
+				<?php
+				$name=$this->session->userdata($this->sessPrefix.'gamesName');
+				$length=mb_strlen($name);
+				
+				for($i=0;$i<$length;$i++){
+					if($i==0) echo mb_substr($name,$i,10).'<br>';
+					else echo mb_substr($name,$i,15).'<br>';
+				 $i=$i+15;
+				}
+				?>
+				</b></a>
 			</li>
 			<li>
-				<a href="<?=base_url();?>">
+				<a href="<?=base_url('dashborad');?>">
 					<i class="fa fa-home"></i> 系统主页面
 				</a>
 			</li>

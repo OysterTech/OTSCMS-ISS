@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-C-API-角色
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-01-19
- * @version 2019-01-20
+ * @version 2019-02-24
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -21,13 +21,13 @@ class API_Role extends CI_Controller {
 	public function getRoleInfo($roleId=0)
 	{
 		$auth=$this->safe->checkAuth('api',substr($this->input->server('HTTP_REFERER'),strpos($this->input->server('HTTP_REFERER'),base_url())+strlen(base_url())));
-		if($auth!=true) $this->ajax->returnData(403,"no Permission");
+		if($auth!=true) returnAjaxData(403,"no Permission");
 
 		if($roleId>=1) $this->db->where('id',$roleId);
 
 		$query=$this->db->get('role');
 
-		$this->ajax->returnData(200,"success",['list'=>$query->result_array()]);
+		returnAjaxData(200,"success",['list'=>$query->result_array()]);
 	}
 
 
@@ -35,8 +35,8 @@ class API_Role extends CI_Controller {
 	{
 		$roleId=$this->session->userdata($this->sessPrefix."roleID");
 		
-		if($roleId>=1) $this->ajax->returnData(200,"success",['treeData'=>$this->getAllMenuByRole($roleId)]);
-		else $this->ajax->returnData(403,"failed To Auth");
+		if($roleId>=1) returnAjaxData(200,"success",['treeData'=>$this->getAllMenuByRole($roleId)]);
+		else returnAjaxData(403,"failed To Auth");
 	}
 
 

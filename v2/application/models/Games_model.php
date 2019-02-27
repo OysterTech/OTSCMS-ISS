@@ -1,9 +1,9 @@
 <?php
 /**
-* @name M-Games比赛
+* @name 生蚝体育竞赛管理系统后台-M-Games比赛
 * @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-10-02
-* @version 2019-02-17
+* @version 2019-02-26
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -41,10 +41,18 @@ class Games_model extends CI_Model {
 		
 		$query=$this->db->query($sql.'ORDER BY start_date DESC',$conditionData);
 		$list=$query->result_array();
+		
 		foreach($list as $key=>$info){
 			$gamesJson=json_decode($info['extra_json'],TRUE);
-			$list[$key]['extra_json']=$gamesJson;
+			
+			$list[$key]['gamesJson']=$gamesJson;
+			unset($list[$key]['extra_json']);
 		}
-		return $list;
+		
+		if($type=="detail"){
+			return $list[0];
+		}else{
+			return $list;
+		}
 	}
 }

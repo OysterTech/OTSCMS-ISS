@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-V-文件列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-02-03
- * @version 2019-02-23
+ * @version 2019-02-26
  */ 
 ?>
 
@@ -77,14 +77,18 @@ window.onload=function(){
 };
 
 function toUpload(){
+	lockScreen();
+	
 	if($("#fileName").val()==""){
-		showModalMsg('请输入文件名！');
+		unlockScreen();
+		showModalTips('请输入文件名！');
 		return false;
 	}
 
 	if($("#myfile").val().length>0){
 		var formData = new FormData($('form')[0]);
 		formData.append('file',$('#myfile')[0].files[0]);
+		
 		$.ajax({
 			url:"<?=base_url('file/toUpload');?>",
 			type: "post",
@@ -94,20 +98,21 @@ function toUpload(){
 			contentType: false,
 			processData: false,
 			error:function(e){
+				unlockScreen();
 				console.log(JSON.stringify(e));
-				$("#tips").html("服务器错误！请联系管理员！");
-				$("#tipsModal").modal('show');
+				showModalTips("服务器错误！请联系管理员！");
 				return false;
 			},
 			success:function(ret){
+				unlockScreen();
 				if(ret.code==200){
 					alert("上传成功！");
 					location.reload();
 				}else if(ret.code==1){
-					showModalMsg('文件已存在！');
+					showModalTips('文件已存在！');
 					return false;
 				}else{
-					showModalMsg('文件上传失败！错误码：'+ret.code);
+					showModalTips('文件上传失败！错误码：'+ret.code);
 					return false;
 				}
 			}

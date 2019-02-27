@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-V-设置运动员标记
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-02-16
- * @version 2019-02-23
+ * @version 2019-02-27
  */
 ?>
 <!DOCTYPE html>
@@ -84,10 +84,6 @@
 							<th style="text-align:center;">操作</th>
 						</tr>
 					</table>
-
-					<center>
-						<button onclick="add()" style="width:98%" class="btn btn-primary">新 增 运 动 员</button>
-					</center>
 				</div>
 			</div>
 		</div>
@@ -97,28 +93,34 @@
 <?php $this->load->view('include/footer'); ?>
 
 <script>
-var adding=0;
 var itemData=[];
+
 getSceneList();
 
 function getSceneList(){
+	lockScreen();
 	gamesId=$("#gamesId").val();
 
 	$.ajax({
-		url:"https://sport.xshgzs.com/api/getItemInfo.php",
+		url:"<?=base_url('api/getItemInfo');?>",
 		data:{'gamesId':gamesId,'type':'scene'},
 		dataType:'json',
 		error:function(e){
-			showModalMsg('服务器错误！<br>获取场次列表失败！');
+			unlockScreen();
+			showModalTips('服务器错误！<br>获取场次列表失败！');
 			console.log(e);
 		},
 		success:function(ret){
+			unlockScreen();
+			
 			if(ret.code==200){
 				data=ret.data['sceneList'];
 				
 				for(i in data){
 					$("#scene").append('<option value="'+data[i]['scene']+'">'+data[i]['scene']+'</option>');
 				}
+			}else{
+				showModalTips("系统错误！<br>获取场次列表失败！");
 			}
 		}
 	})
@@ -126,18 +128,22 @@ function getSceneList(){
 
 
 function getItemList(scene=0){
+	lockScreen();
 	$("#dataDiv").css('display','none');
 	gamesId=$("#gamesId").val();
 
 	$.ajax({
-		url:"https://sport.xshgzs.com/api/getItemInfo.php",
+		url:"<?=base_url('api/getItemInfo');?>",
 		data:{'gamesId':gamesId,'type':'item','scene':scene},
 		dataType:'json',
 		error:function(e){
-			showModalMsg('服务器错误！<br>获取场次列表失败！');
+			unlockScreen();
+			showModalTips('服务器错误！<br>获取项目列表失败！');
 			console.log(e);
 		},
 		success:function(ret){
+			unlockScreen();
+			
 			if(ret.code==200){
 				itemData=ret.data['itemList'];
 				$("#orderIndex option:gt(0)").remove();
@@ -145,6 +151,8 @@ function getItemList(scene=0){
 				for(i in itemData){
 					$("#orderIndex").append('<option value="'+itemData[i]['order_index']+"-"+itemData[i]['id']+'">'+itemData[i]['order_index']+'</option>');
 				}
+			}else{
+				showModalTips("系统错误！<br>获取项目列表失败！");
 			}
 		}
 	})
@@ -176,7 +184,7 @@ function search(){
 		dataType:'json',
 		error:function(e){
 			unlockScreen();
-			showModalMsg('服务器错误！<br>获取场次列表失败！');
+			showModalTips('服务器错误！<br>获取场次列表失败！');
 			console.log(e);
 		},
 		success:function(ret){
@@ -210,7 +218,7 @@ function search(){
 				unlockScreen();
 			}else{
 				unlockScreen();
-				showModalMsg('系统错误！<br>获取场次列表失败！');
+				showModalTips('系统错误！<br>获取场次列表失败！');
 				console.log(ret);
 			}
 		}
@@ -226,7 +234,7 @@ function setRemark(id,type){
 		dataType:"json",
 		error:function(e){
 			unlockScreen();
-			showModalMsg('服务器错误！<br>获取场次列表失败！');
+			showModalTips('服务器错误！<br>获取场次列表失败！');
 			console.log(e);
 		},
 		success:function(ret){

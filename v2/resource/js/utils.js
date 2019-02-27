@@ -1,9 +1,7 @@
 ﻿/**
-* -------------------------------
 * getURLParam 获取指定URL参数
-* -------------------------------
-* @param String 参数名称
-* -------------------------------
+* @param  String 参数名称
+* @return String 参数值
 **/
 function getURLParam(name){
 	var reg = new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
@@ -14,11 +12,8 @@ function getURLParam(name){
 
 
 /**
-* ------------------------------
 * showCNNum 显示汉字的数字
-* ------------------------------
 * @param INT 一位数字
-* ------------------------------
 **/
 function showCNNum(number){
 	rtn="";
@@ -39,12 +34,9 @@ function showCNNum(number){
 
 
 /**
-* -----------------------------------
 * isInArray 检测指定字符串是否存在于数组
-* -----------------------------------
 * @param Array  待检测的数组
 * @param String 指定字符串
-* -----------------------------------
 **/
 function isInArray(arr,val){
 	length=arr.length;
@@ -63,11 +55,8 @@ function isInArray(arr,val){
 
 
 /**
-* -----------------------------------
 * isChn 字符串是否全为汉字
-* -----------------------------------
 * @param String 待检测的字符串
-* -----------------------------------
 **/
 function isChn(str){ 
 	var reg = /^[\u4E00-\u9FA5]+$/; 
@@ -80,16 +69,13 @@ function isChn(str){
 
 
 /**
-* -----------------------------------
-* setCookie 设置Cookie
-* -----------------------------------
+* setCookie 设置Cookie值
 * @param String Cookie名称
-* @param String Cookie内容
-* -----------------------------------
+* @param String Cookie值
 **/
 function setCookie(name,value)
 {
-  var Days = 30;// Cookies有效天数
+  var Days = 30;// Cookie有效天数
   var exp = new Date();
   exp.setTime(exp.getTime() + Days*24*60*60*1000);
   document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
@@ -97,11 +83,9 @@ function setCookie(name,value)
 
 
 /**
-* -----------------------------------
 * getCookie 获取Cookie
-* -----------------------------------
-* @param String Cookie名称
-* -----------------------------------
+* @param  String Cookie名称
+* @return String Cookie值
 **/
 function getCookie(name)
 {
@@ -116,11 +100,8 @@ function getCookie(name)
 
 
 /**
-* -----------------------------------
 * delCookie 删除Cookie
-* -----------------------------------
 * @param String Cookie名称
-* -----------------------------------
 **/
 function delCookie(name){
 	var exp = new Date();
@@ -135,11 +116,7 @@ function delCookie(name){
 **/
 function lockScreen(){
 	$('body').append(
-		'<div id="lockContent" style="opacity: 0.8; filter:alpha(opacity=20); width: 100%; height: 100%; z-index: 9999; position:fixed; _position:absolute; top:0; left:0;left:50%; margin-left:-20px; top:50%; margin-top:-20px;">'+
-		'<div><i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i><span class="sr-only">Loading...</span></div>'+
-		'</div>'+
-		'<div id="lockScreen" style="background: #000; opacity: 0.35; filter:alpha(opacity=20); width: 100%; height: 100%; z-index: 9999; position:fixed; _position:absolute; top:0; left:0;">'+
-		'</div>'
+		'<div class="loadingwrap" id="loadingwrap"><div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div></div>'
 		);
 }
 
@@ -148,8 +125,10 @@ function lockScreen(){
 * unlockScreen 屏幕解锁
 **/
 function unlockScreen(){
-	$('#lockScreen').remove();
-	$('#lockContent').remove();
+	// 0.3s后再删除，防止闪现
+	setTimeout(function(){
+		$('#loadingwrap').remove();
+	},300);	
 }
 
 

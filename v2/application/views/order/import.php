@@ -102,8 +102,7 @@ function toImport(){
 			error:function(e){
 				unlockScreen();
 				console.log(JSON.stringify(e));
-				$("#tips").html("服务器错误！请联系管理员！");
-				$("#tipsModal").modal('show');
+				showModalTips("服务器错误！请联系管理员！");
 				return false;
 			},
 			success:function(ret){
@@ -115,16 +114,16 @@ function toImport(){
 					location.reload();
 				}else if(ret.code==1){
 					duplicate=1;
-					showModalMsg('当前比赛已有分组数据！<br>如需覆盖，请再次点击上传！');
+					showModalTips('当前比赛已有分组数据！<br>如需覆盖，请再次点击上传！');
 					return false;
 				}else if(ret.code==403){
-					showModalMsg('签名校验失败！<br>请刷新页面重试！');
+					showModalTips('签名校验失败！<br>请刷新页面重试！');
 					return false;
 				}else if(ret.code==5003){
-					showModalMsg('导入失败！<br><br>Excel总条数：<font color="blue">'+ret.data['total']+'</font><br>成功导入条数：<font color="green">'+ret.data['successRows']+'</font>');
+					showModalTips('导入失败！<br><br>Excel总条数：<font color="blue">'+ret.data['total']+'</font><br>成功导入条数：<font color="green">'+ret.data['successRows']+'</font>');
 					return false;
 				}else{
-					showModalMsg('导入失败！错误码：'+ret.code);
+					showModalTips('导入失败！错误码：'+ret.code);
 					return false;
 				}
 			}

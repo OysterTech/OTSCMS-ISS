@@ -1,9 +1,9 @@
 <?php
 /**
-* @name L-Ajax
+* @name 生蚝体育竞赛管理系统后台-L-Ajax
 * @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-02-10
-* @version 2018-03-05
+* @version 2019-02-24
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -19,18 +19,6 @@ class Ajax {
 		$this->_CI->load->model(array('Setting_model'));
 
 		$this->sessPrefix=$this->_CI->Setting_model->get('sessionPrefix');
-	}
-
-
-	/**
-	 * 返回JSON数据
-	 * @param  string 状态码
-	 * @param  string 待返回的数据
-	 * @return JSON   已处理好的JSON数据
-	 */
-	public function returnData($code,$msg,$data=""){
-		$ret=array('code'=>$code,'message'=>$msg,'data'=>$data);
-		die(json_encode($ret));
 	}
 
 
@@ -67,7 +55,7 @@ class Ajax {
 	public function checkAjaxToken($token)
 	{
 		if($token!=$this->_CI->session->userdata($this->sessPrefix.'AJAX_token')){
-			die(self::returnData("403","invaildToken"));
+			returnAjaxData("403","invaild Token");
 		}
 	}
 }

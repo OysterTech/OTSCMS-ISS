@@ -26,7 +26,7 @@ class RBAC_model extends CI_Model {
 		$query=$this->db->query($sql,[$uri]);
 		
 		if($query->num_rows()!=1){
-			return NULL;
+			return null;
 		}
 		
 		$list=$query->result_array();

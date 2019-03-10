@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-V-赛事主页
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-03
- * @version 2019-02-23
+ * @version 2019-03-01
  */
 ?>
 <!DOCTYPE html>
@@ -46,7 +46,7 @@
 			<a href="<?=base_url('schedule/list');?>" class="btn btn-default btn-block" style="font-weight:bold;font-size:21px;"><i class="fa fa-list-alt" aria-hidden="true"></i> 日 程</a>
 		</div>
 		<div class="col-xs-6">
-			<a href="<?=base_url('checkin/index');?>" class="btn btn-block" style="background-color:#ffa6ff;font-weight:bold;font-size:21px;color:white;"><i class="fa fa-volume-up" aria-hidden="true"></i> 检 录</a>
+			<a href="<?=base_url('calling/index');?>" class="btn btn-block" style="background-color:#ffa6ff;font-weight:bold;font-size:21px;color:white;"><i class="fa fa-volume-up" aria-hidden="true"></i> 检 录</a>
 		</div>
 
 		<br><br><br>

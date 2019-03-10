@@ -21,7 +21,7 @@ class User extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('string');
 
-		$this->safe->checkPermission();
+		// $this->safe->checkPermission();
 
 		$this->sessPrefix=$this->safe->getSessionPrefix();
 		

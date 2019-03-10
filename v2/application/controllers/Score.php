@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-C-Score成绩
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-02-24
- * @version 2019-02-27
+ * @version 2019-02-28
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -36,11 +36,11 @@ class Score extends CI_Controller {
 	}
 
 
-	public function list()
+	public function edit()
 	{
 		$this->safe->checkIsInGames();
 		$this->ajax->makeAjaxToken();
-		$this->load->view('order/list',['gamesId'=>$this->gamesId]);
+		$this->load->view('score/edit',['gamesId'=>$this->gamesId]);
 	}
 	
 	

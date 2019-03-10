@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-导航栏
  * @author Jerry Cheung <master@smhgzs.com>
  * @since 2018-12-31
- * @version 2019-02-26
+ * @version 2019-03-03
  */
 ?>
 
@@ -261,6 +261,7 @@ var headerVm = new Vue({
 		rootUrl:"<?=base_url();?>",
 		apiPath:"<?=$this->API_PATH;?>",
 		userId:$("#<?=$this->sessPrefix;?>userId").val(),
+		token:"<?=$this->ajax->showAjaxToken(0);?>",
 		userInfo:{},
 		treeData:{},
 		navNoticeList:{},

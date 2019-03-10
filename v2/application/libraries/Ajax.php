@@ -3,7 +3,7 @@
 * @name 生蚝体育竞赛管理系统后台-L-Ajax
 * @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-02-10
-* @version 2019-02-24
+* @version 2019-03-04
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -26,8 +26,9 @@ class Ajax {
 	 * 显示AJAX-Token
 	 * @return string Token名+值
 	 */
-	public function showAjaxToken(){
-		return '"token":"'.$this->_CI->session->userdata($this->sessPrefix.'AJAX_token').'"';
+	public function showAjaxToken($isAjax=1){
+		$token=$this->_CI->session->userdata($this->sessPrefix.'AJAX_token');
+		return $isAjax!==1?$token:'"token":"'.$token.'"';
 	}
 
 
@@ -55,7 +56,7 @@ class Ajax {
 	public function checkAjaxToken($token)
 	{
 		if($token!=$this->_CI->session->userdata($this->sessPrefix.'AJAX_token')){
-			returnAjaxData("403","invaild Token");
+			returnAjaxData(403001,"invaild Token");
 		}
 	}
 }

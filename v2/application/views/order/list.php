@@ -60,9 +60,8 @@
 
 				<p style="line-height:4px;">&nbsp;</p>
 
-				<center>
-					<b><font id="itemName" color="red" size="6" style="display:none;"></font></b>
-				</center>
+				<div id="itemName" style="color:red;font-size:26px;font-weight:bold;text-align:center;display:none;">
+				</div>
 
 				<p style="line-height:2px;">&nbsp;</p>
 
@@ -84,9 +83,9 @@
 						</tr>
 					</table>
 
-					<center>
+					<!--center>
 						<button onclick="add()" style="width:98%" class="btn btn-primary">新 增 运 动 员</button>
-					</center>
+					</center-->
 				</div>
 			</div>
 		</div>
@@ -164,19 +163,20 @@ function getItemList(scene=0){
 
 
 function showItemName(orderIndex){
-	$("#dataDiv").css('display','none');
+	$("#dataDiv").hide(500);
 	orderIndex=orderIndex.split('-');
 
 	for(i in itemData){
 		if(itemData[i]['order_index']==orderIndex[0]){
-			$("#itemName").css('display','');
 			$("#itemName").html(itemData[i]['sex']+itemData[i]['group_name']+itemData[i]['name']);
+			$("#itemName").show(500);
 		}
 	}
 }
 
 
 function search(){
+	lockScreen();
 	itemId=$("#orderIndex").val();
 	itemId=itemId.split('-');
 	itemId=itemId[1];
@@ -186,12 +186,14 @@ function search(){
 		data:{'itemId':itemId},
 		dataType:'json',
 		error:function(e){
+			unlockScreen();
 			showModalTips('服务器错误！<br>获取场次列表失败！');
 			console.log(e);
 		},
 		success:function(ret){
+			unlockScreen();
 			if(ret.code==200){
-				$("#dataDiv").css('display','');
+				$("#dataDiv").show(500);
 				$("#table tr:gt(0)").remove();
 				data=ret.data['list'];
 
@@ -218,12 +220,12 @@ function search(){
 					    //+'<option value="$teamInfo['id']">$teamInfo['short_name']</option>'
 					    +'</select>'
 					    +'</td>'
-					    +'<td>'
+					    +'<td>暂未支持编辑'
 					    /*+'<button id="button_1_'+info['id']+'" onclick="readyUpdate('+info['id']+');" class="btn btn-primary">修改</button>'
 					    +'<button id="button_2_'+info['id']+'" onclick="cancel('+info['id']+');" class="btn btn-success" style="display:none;">取消</button>'
 					    +'<button id="button_3_'+info['id']+'" onclick="toUpdate('+info['id']+');" class="btn btn-warning" style="display:none;">保存</button>'
-					    +'<button id="button_4_'+info['id']+'" onclick="del('+info['id']+');" class="btn btn-danger">删除</button>'
-					    +'</td>'*/
+					    +'<button id="button_4_'+info['id']+'" onclick="del('+info['id']+');" class="btn btn-danger">删除</button>'*/
+					    +'</td>'
 					    +'</tr>';
 					$("#table").append(html);
 				}

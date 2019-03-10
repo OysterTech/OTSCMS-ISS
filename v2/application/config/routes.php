@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统后台-路由
  * @author CodeIgniter,Jerry Cheung
  * @since 2018-02-06
- * @version 2019-02-26
+ * @version 2019-03-01
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -21,6 +21,7 @@ $route['dashborad'] = 'Main/index';
 /************* API-分组 **************/
 $route['api/getOrder']='API/API_Item/getOrder';
 $route['api/getItemInfo']='API/API_Item/get';
+$route['api/getCallingItem']='API/API_Item/getCallingItem';
 
 
 /************* RBAC-API **************/

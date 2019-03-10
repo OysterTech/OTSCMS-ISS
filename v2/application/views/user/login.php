@@ -67,7 +67,7 @@
 		<br>
 		
 		All Rights Reserved.<br>		
-		<a href="http://www.miitbeian.gov.cn/" target="_blank" style="color:black;">粤ICP备18045107号-2</a><br>
+		<a href="http://www.miitbeian.gov.cn/" target="_blank" style="color:black;">粤ICP备19018320号-1</a><br>
 	</p>
 	<!-- ./页脚版权 -->
 	

@@ -203,6 +203,10 @@ var vm = new Vue({
 			})
 		},
 		goEnd:function(){
+			if(!confirm("确定要提前结束[第"+vm.callingItem['scene']+"场]的检录吗？")){
+				return false;
+			}
+			
 			lockScreen();
 			$.ajax({
 				url:"<?=base_url('calling/toCall');?>",
@@ -281,6 +285,11 @@ var vm = new Vue({
 			})		
 		},
 		goBack:function(){
+			if(vm.callingItem["order_index"]==1){
+				showModalTips("当前项目已是本场比赛第一项！<br>请注意，无法再次返回！");
+				return false;
+			}
+			
 			lockScreen();
 			$.ajax({
 				url:"<?=base_url('calling/toCall');?>",

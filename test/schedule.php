@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事日程
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-27
- * @version 2019-06-28
+ * @version 2019-07-03
  */
 ?>
 
@@ -15,7 +15,7 @@ $pageName='赛事日程';
 include 'header.php';
 ?>
 
-<?php include 'navbar.php'; ?>
+<?php include 'component.php'; ?>
 	
 <body style="background-color:#57c5e2;">
 
@@ -48,8 +48,8 @@ include 'header.php';
 				<thead>
 					<tr>
 						<th style="padding:5px 0px;">类型</th>
-						<th style="padding:5px 0px;">项次</th>
-						<th style="padding:5px 2px;">项目名</th>
+						<th style="padding:5px 0px;">项 次</th>
+						<th style="padding:5px 2px;vertical-align:middle;">项 目 名</th>
 						<th style="padding:5px 2px;">组数</th>
 						<th style="padding:5px 0px;">人/队数</th>
 					</tr>

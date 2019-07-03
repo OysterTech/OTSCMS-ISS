@@ -1,7 +1,7 @@
 <!-- footer -->
 <div style="color:#FFFF00;text-align:center;font-weight:bold;font-size:18px;line-height:29px;">
 	<hr>
-	&copy; 2014-2019 生蚝科技
+	&copy; 2014-<?=date('Y');?> 生蚝科技
 	<a style="color:#07C160" data-toggle="modal" data-target="#wxModal"><i class="fa fa-weixin fa-lg" aria-hidden="true"></i></a>
 	<a style="color:#FF7043" onclick='launchQQ()'><i class="fa fa-qq fa-lg" aria-hidden="true"></i></a>
 	<a style="color:#29B6F6" href="mailto:master@xshgzs.com"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
@@ -18,7 +18,7 @@
 	</p>
 	<!-- ./友情链接 -->
 
-	<a href="/admin" target="_blank" style="color:white;font-size:16px;">登 入 管 理 后 台</a>
+	<a href="/ci" target="_blank" style="color:white;font-size:16px;">登 入 管 理 后 台 (V2.0)</a>
 
 	<br><br>
 </div>

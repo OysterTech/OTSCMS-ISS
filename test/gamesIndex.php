@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-比赛首页
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-06-27
+ * @version 2019-07-03
  */
 ?>
 
@@ -15,7 +15,7 @@ $pageName='赛事首页';
 include 'header.php';
 ?>
 
-<?php include 'navbar.php'; ?>
+<?php include 'component.php'; ?>
 
 <body style="background-color:#57c5e2;">
 

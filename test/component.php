@@ -1,3 +1,12 @@
+<?php
+/**
+ * @name 生蚝体育竞赛管理系统-Web2-组件
+ * @author Jerry Cheung <master@xshgzs.com>
+ * @since 2019-05-30
+ * @version 2019-06-30
+ */
+?>
+
 <template id="games-navbar-template">
 	<div class="col-md-2">
 		<div class="list-group" style="margin-left:-15px;">
@@ -18,10 +27,8 @@ Vue.component('games-navbar', {
 				'schedule': ['赛事日程','list-alt'],
 				'file': ['下载资料','files-o'],
 				'order': ['秩序册','table'],
-				'athleteItem': ['运动员项目','group'],
 				'checkin': ['检录处','volume-up'],
-				'score': ['成绩公告','trophy'],
-				'athleteScore': ['运动员成绩','user-o']
+				'score': ['成绩公告','trophy']
 			}
 		}
 	},

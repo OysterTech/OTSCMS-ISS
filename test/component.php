@@ -3,9 +3,33 @@
  * @name 生蚝体育竞赛管理系统-Web2-组件
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-06-30
+ * @version 2019-07-06
  */
 ?>
+
+<template id="page-navbar-template">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img style="margin-top:-10px; height:40px" alt="生蚝体育科技" src="https://sport.xshgzs.com/resource/image/logo.jpg">
+				</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/gamesEntryList">在线报名</a></li>
+					<li class="active"><a href="/">成绩查询</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</template>
+
+<script>
+Vue.component('page-navbar', {
+	template: '#page-navbar-template'
+})
+</script>
 
 <template id="games-navbar-template">
 	<div class="col-md-2">
@@ -27,7 +51,7 @@ Vue.component('games-navbar', {
 				'schedule': ['赛事日程','list-alt'],
 				'file': ['下载资料','files-o'],
 				'order': ['秩序册','table'],
-				'checkin': ['检录处','volume-up'],
+				'calling': ['检录处','volume-up'],
 				'score': ['成绩公告','trophy']
 			}
 		}

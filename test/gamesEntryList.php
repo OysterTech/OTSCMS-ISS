@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-06-08
+ * @version 2019-07-06
  */
 ?>
 
@@ -64,24 +64,12 @@
 	
 <body style="background-color:#57c5e2">
 
+<?php include 'component.php'; ?>
+
 <!-- Vue Area -->
 <div id="app">
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">
-				<img style="margin-top:-10px; height:40px" alt="生蚝体育科技" src="https://sport.xshgzs.com/resource/image/logo.jpg">
-			</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="/test/gamesEntryList">在线报名</a></li>
-				<li><a href="/test">成绩查询</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+<page-navbar></page-navbar>
 
 <div class="bs-docs-header">
 	<div class="container">

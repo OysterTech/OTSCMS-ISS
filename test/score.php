@@ -20,21 +20,8 @@ include 'header.php';
 <body style="background-color:#57c5e2;">
 
 <div id="app">
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">
-				<img style="margin-top:-10px; height:40px" alt="生蚝体育科技" src="https://sport.xshgzs.com/resource/image/logo.jpg">
-			</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li><a href="/gamesEntryList">在线报名</a></li>
-				<li class="active"><a href="/">成绩查询</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+
+<page-navbar></page-navbar>
 
 <games-title ref="header"></games-title>
 

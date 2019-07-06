@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-成绩公告
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-08
- * @version 2019-07-03
+ * @version 2019-07-06
  */
 ?>
 
@@ -46,9 +46,9 @@ include 'header.php';
 		<div class="col-md-10">
 			<ul class="nav nav-tabs">
 				<ul class="nav nav-tabs">
-				<li id="orderTab" class="active"><a onclick="vm.type=1;$('#orderSelect').show();$('#groupSelect').hide();$('#athleteSelect').hide();$('#orderTab').attr('class','active');$('#groupTab').attr('class','');$('#athleteTab').attr('class','')">按项次查询</a></li>
-				<li id="groupTab"><a onclick="vm.type=2;$('#orderSelect').hide();$('#athleteSelect').hide();$('#groupSelect').show();$('#orderTab').attr('class','');$('#athleteTab').attr('class','');$('#groupTab').attr('class','active')">按组别项目查询</a></li>
-				<li id="athleteTab"><a onclick="vm.type=3;$('#orderSelect').hide();$('#groupSelect').hide();$('#athleteSelect').show();$('#orderTab').attr('class','');$('#groupTab').attr('class','');$('#athleteTab').attr('class','active')">按运动员姓名查询</a></li>
+				<li id="orderTab" class="active"><a onclick="vm.cleanScore();vm.type=1;$('#orderSelect').show();$('#groupSelect').hide();$('#athleteSelect').hide();$('#orderTab').attr('class','active');$('#groupTab').attr('class','');$('#athleteTab').attr('class','')">按项次查询</a></li>
+				<li id="groupTab"><a onclick="vm.cleanScore();vm.type=2;$('#orderSelect').hide();$('#athleteSelect').hide();$('#groupSelect').show();$('#orderTab').attr('class','');$('#athleteTab').attr('class','');$('#groupTab').attr('class','active')">按组别项目查询</a></li>
+				<li id="athleteTab"><a onclick="vm.cleanScore();vm.type=3;$('#orderSelect').hide();$('#groupSelect').hide();$('#athleteSelect').show();$('#orderTab').attr('class','');$('#groupTab').attr('class','');$('#athleteTab').attr('class','active')">按运动员姓名查询</a></li>
 			</ul>
 
 			<div class="row">
@@ -188,7 +188,50 @@ include 'header.php';
 					</tbody>
 				</table>
 			</div>
-			
+			<!-- ./成绩表格显示 -->
+
+			<!-- 运动员成绩表格显示 -->
+			<div id="athleteScoreResult" style="display:none">
+				<table class="table table-bordered table-hover table-striped">
+					<thead>
+						<tr>
+							<th v-if="allGames==true">比赛名</th>
+							<th>性别</th>
+							<th>组别</th>
+							<th>项目名</th>
+							<th>姓名</th>
+							<th>单位</th>
+							<th>成绩</th>
+							<th style="padding:5px 0 8px;">排名</th>
+							<th style="padding:5px 0 8px;">得分</th>
+							<th style="padding:5px 0 8px;">备注</th>
+						</tr>
+					</thead>
+					<tbody style="font-size: 12px;">
+						<template v-for="score in scoreData">
+							<tr v-bind:style="{backgroundColor:score['remark']=='DNS'||score['remark']=='DSQ'||score['remark']=='DNF'?'#ffe0e0':''}">
+								<th v-if="allGames==true && score['total']!=undefined" v-bind:rowspan="score['total']" style="padding:5px 2px;vertical-align:middle;">{{score['games_name']}}</th>
+								<td style="vertical-align:middle;">{{score['sex']}}</td>
+								<td style="vertical-align:middle;">{{score['group_name']}}</td>
+								<td style="vertical-align:middle;">{{score['item_name']}}</td>
+								<td style="vertical-align:middle;">{{score['name']}}</td>
+								<td style="vertical-align:middle;">{{score['short_name']}}</td>
+								<td style="padding:5px 0;vertical-align:middle;">{{score['score']}}</td>
+
+								<th v-if="score['remark']!='DNS'&&score['remark']!='DSQ'&&score['remark']!='DNF'&&score['rank']!=0" style="padding:5px 0;vertical-align:middle;color:blue">{{score['rank']}}</th>
+								<th v-else style="padding:5px 0;"></th>
+
+								<td v-if="score['point']!=0 && score['point']!=null" style="padding:5px 0;vertical-align:middle;">{{parseInt(score['point'])}}</td>
+								<td v-else style="padding:5px 0;vertical-align:middle;"></td>
+
+								<td style="padding:5px 0;vertical-align:middle;">{{score['remark']}}</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+			<!-- ./运动员成绩表格显示 -->
+
 			<center><div style="width:96%;text-align: center;">
 				<div class="alert alert-info"><i class="fa fa-info-circle" aria-hidden="true"></i> 备注：DNS 弃权、DSQ 犯规、TRI测试</div>
 			</div></center>
@@ -342,7 +385,33 @@ var vm = new Vue({
 				}
 			});
 		},
+		athleteSearch:()=>{
+			vm.cleanScore();
+
+			$.ajax({
+				url:"/api/getAthleteData",
+				data:{'type':'score','allGames':vm.allGames,'name':vm.athleteName,'gamesId':vm.gamesInfo['id']},
+				dataType:"json",
+				error:function(e){
+					unlockScreen();
+					showModalTips('服务器错误！<br>查询成绩失败！');
+					return false;
+				},
+				success:function(ret){
+					unlockScreen();
+					
+					if(ret.code==200){
+						vm.scoreData=ret.data['list'];
+						$("#athleteScoreResult").show(500);
+					}else{
+						showModalTips('系统['+ret.code+']错误！<br>查询成绩失败！');
+						return false;
+					}
+				}
+			});
+		},
 		cleanScore:()=>{
+			$("#athleteScoreResult").hide(400);
 			$("#scoreResult").hide(400);
 			vm.scoreData={};
 		}

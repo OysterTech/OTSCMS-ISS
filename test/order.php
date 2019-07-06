@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-27
- * @version 2019-07-03
+ * @version 2019-07-06
  */
 ?>
 
@@ -45,9 +45,9 @@ include 'header.php';
 		
 		<div class="col-md-10">
 			<ul class="nav nav-tabs">
-				<li id="orderTab" class="active"><a onclick="vm.type=1;$('#orderSelect').show();$('#groupSelect').hide();$('#athleteSelect').hide();$('#orderTab').attr('class','active');$('#groupTab').attr('class','');$('#athleteTab').attr('class','')">按项次查询</a></li>
-				<li id="groupTab"><a onclick="vm.type=2;$('#orderSelect').hide();$('#athleteSelect').hide();$('#groupSelect').show();$('#orderTab').attr('class','');$('#athleteTab').attr('class','');$('#groupTab').attr('class','active')">按组别项目查询</a></li>
-				<li id="athleteTab"><a onclick="vm.type=3;$('#orderSelect').hide();$('#groupSelect').hide();$('#athleteSelect').show();$('#orderTab').attr('class','');$('#groupTab').attr('class','');$('#athleteTab').attr('class','active')">按运动员姓名查询</a></li>
+				<li id="orderTab" class="active"><a onclick="vm.clean();vm.type=1;$('#orderSelect').show();$('#groupSelect').hide();$('#athleteSelect').hide();$('#orderTab').attr('class','active');$('#groupTab').attr('class','');$('#athleteTab').attr('class','')">按项次查询</a></li>
+				<li id="groupTab"><a onclick="vm.clean();vm.type=2;$('#orderSelect').hide();$('#athleteSelect').hide();$('#groupSelect').show();$('#orderTab').attr('class','');$('#athleteTab').attr('class','');$('#groupTab').attr('class','active')">按组别项目查询</a></li>
+				<li id="athleteTab"><a onclick="vm.clean();vm.type=3;$('#orderSelect').hide();$('#groupSelect').hide();$('#athleteSelect').show();$('#orderTab').attr('class','');$('#groupTab').attr('class','');$('#athleteTab').attr('class','active')">按运动员姓名查询</a></li>
 			</ul>
 
 			<div class="row">
@@ -181,29 +181,24 @@ include 'header.php';
 
 			<!-- 运动员分组表格显示 -->
 			<div id="athleteOrderResult" style="display:none">
-				<table class="table table-bordered table-hover table-striped">
+				<table v-if="type==3" class="table table-bordered table-hover table-striped">
 					<thead>
 						<tr style="background-color: #cbeff5">
 							<th>场/项</th>
-							<th>组/道</th>
 							<th>项目名</th>
+							<th>组/道</th>
 							<th>姓名</th>
 							<th>代表队</th>
 						</tr>
 					</thead>
-					<tbody style="font-size:17px;">
-						<template v-for="(runGroupData,runGroupNum) in orderData">
-							<tr v-for="(runwayData,index) in runGroupData">
-								<template v-if="index==0">
-									<th v-if="runGroupNum%2==0" style="vertical-align:middle;background-color:#B3E5FC;" v-bind:rowspan="runGroupData.length">{{runwayData['run_group']}}</th>
-									<th v-else style="vertical-align:middle;background-color:#CCFF90;" v-bind:rowspan="runGroupData.length">{{runwayData['run_group']}}</th>
-								</template>
-								
-								<th style="vertical-align:middle;">{{runwayData['runway']}}</th>
-								<td style="vertical-align:middle;padding:5px 5px 0 5px;">{{runwayData['name']}}<p style="font-size:12px">[{{runwayData['short_name']}}]</p></td>
-								<td style="vertical-align:middle;">{{runwayData['remark']}}</td>
-							</tr>
-						</template>
+					<tbody style="font-size:14px;">
+						<tr v-for="info in orderData">
+							<th style="vertical-align:middle;">{{info['scene']}}/{{info['order_index']}}</th>
+							<td style="vertical-align:middle;padding:5px 5px 0 5px;">{{info['sex']}}{{info['group_name']}}{{info['item_name']}}</td>
+							<td style="vertical-align:middle;">{{info['run_group']}}/{{info['runway']}}</td>
+							<td style="vertical-align:middle;padding:5px 5px 0 5px;">{{athleteName}}</td>
+							<td style="vertical-align:middle;">{{info['short_name']}}</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -356,6 +351,7 @@ var vm = new Vue({
 						}
 						
 						vm.orderData=retData;
+						console.log(retData);
 						$("#orderResult").show(500);
 						unlockScreen();
 						return true;
@@ -382,6 +378,8 @@ var vm = new Vue({
 					if(ret.code==200){
 						let data=ret.data['list'];
 						console.log(data);
+						vm.orderData=data;
+						$("#athleteOrderResult").show(500);
 						unlockScreen();
 					}else if(ret.code==404){
 						showModalTips('无此运动员数据！');
@@ -393,6 +391,7 @@ var vm = new Vue({
 		},
 		clean:()=>{
 			$("#orderResult").hide(400);
+			$("#athleteOrderResult").hide(400);
 			vm.orderData={};
 		}
 	},

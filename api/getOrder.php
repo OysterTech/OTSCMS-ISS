@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-处理查询分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-29
- * @version 2019-06-29
+ * @version 2019-07-05
  */
 
 require_once '../include/public.func.php';
@@ -30,7 +30,7 @@ if($itemQuery[1]==1){
 	$itemId=$itemQuery[0][0]['id'];
 	$itemName=$itemQuery[0][0]['sex'].$itemQuery[0][0]['group_name'].$itemQuery[0][0]['item_name'];
 }else{
-	die(returnAjaxData(1,"Item not found"));
+	returnAjaxData(1,"Item not found");
 }
 
 // 查询分组数据
@@ -38,4 +38,4 @@ $orderSql="SELECT a.run_group,a.runway,a.name,a.remark,b.short_name FROM score a
 $orderQuery=PDOQuery($dbcon,$orderSql,[$itemId],[PDO::PARAM_INT]);
 
 // 返回数据
-die(returnAjaxData(200,"success",['itemName'=>$itemName,'scene'=>$itemQuery[0][0]['scene'],'orderIndex'=>$itemQuery[0][0]['order_index'],'orderData'=>$orderQuery[0]]));
+returnAjaxData(200,"success",['itemName'=>$itemName,'scene'=>$itemQuery[0][0]['scene'],'orderIndex'=>$itemQuery[0][0]['order_index'],'orderData'=>$orderQuery[0]]);

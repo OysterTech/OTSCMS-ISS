@@ -3,11 +3,12 @@
  * @name 生蚝体育比赛管理系统-Web-公用函数库
  * @author Jerry Cheung <master@xshgzs.com>
  * @create 2018-08-10
- * @update 2018-09-28
+ * @update 2019-02-16
  */
 
 session_start();
 require_once 'PDOConn.php';
+include 'input_helper.php';
 
 define('ROOT_PATH','https://sport.xshgzs.com/');
 define('JS_PATH',ROOT_PATH.'resource/js/');
@@ -53,18 +54,6 @@ function getRanSTR($length,$LettersType=2)
 	}
 
 	return $ranstr;
-}
-
-
-/**
- * returnAjaxData 返回JSON数据
- * @param  string 状态码
- * @param  string 待返回的数据
- * @return JSON   已处理好的JSON数据
- */
-function returnAjaxData($code,$msg,$data=""){
-	$ret=array('code'=>$code,'message'=>$msg,'data'=>$data);
-	return json_encode($ret);
 }
 
 

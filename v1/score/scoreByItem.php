@@ -106,7 +106,7 @@ function search(){
 				scoreData=ret.data['scoreData'];
 
 				// 如果没有任何成绩
-				if(scoreData=="" || scoreData[0]['rank']==null){
+				if(scoreData==""){
 					html="<tr>"
 					    +"<td colspan='7' style='font-weight:bold;color:red;font-size:18px;'>本 项 目 暂 未 上 传 成 绩</td>"
 					    +"</tr>";

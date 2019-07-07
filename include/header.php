@@ -1,24 +1,29 @@
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="keywords" content="生蚝科技,生蚝体育比赛信息查询系统,广州市游泳协会青少儿游泳锦标赛,广州市游泳协会">
-<meta name="description" content="生蚝体育比赛信息查询系统，为各类体育比赛提供信息查询功能，如秩序册、成绩、检录等。">
-<meta name="author" content="生蚝科技">
-
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="<?=CSS_PATH;?>util.css">
-
-<link rel="shortcut icon" href="<?=ROOT_PATH;?>favicon.ico">
-
-<?php if(strpos($_SERVER['PHP_SELF'],"admin")===FALSE){ ?>
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?8eef533602a9d104063a5d632f86bcfd";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-<?php } ?>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><?=$pageName;?> / 生蚝体育竞赛管理系统</title>
+	
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/resource/css/util.css">
+	
+	<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/resource/js/back2top.js"></script>
+	<script src="/resource/js/util.js"></script>
+	
+	<style type="text/css">
+		html,body {
+			font-family:微软雅黑;
+			margin: 0;
+			padding:0;
+			height: 100%;
+		}
+		.row{
+			padding-top:15px;
+			background-color: white;
+			border-radius: 3px;
+		}
+	</style>
+</head>

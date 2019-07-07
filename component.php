@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-组件
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-07-06
+ * @version 2019-07-07
  */
 ?>
 
@@ -12,13 +12,13 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="/">
-					<img style="margin-top:-10px; height:40px" alt="生蚝体育科技" src="https://sport.xshgzs.com/resource/image/logo.jpg">
+					<img style="margin-top:-10px; height:40px" alt="生蚝体育科技" src="/resource/image/logo.jpg">
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="/gamesEntryList">在线报名</a></li>
 					<li class="active"><a href="/">成绩查询</a></li>
+					<li><a href="/gamesEntryList">在线报名</a></li>
 				</ul>
 			</div>
 		</div>
@@ -34,7 +34,7 @@ Vue.component('page-navbar', {
 <template id="games-navbar-template">
 	<div class="col-md-2">
 		<div class="list-group" style="margin-left:-15px;">
-			<a v-for="(navInfo,navPath) in navList" v-bind:href="['/test/'+navPath]" class="list-group-item" v-bind:class="[nowPageName==navPath?activeClass:'']">&nbsp;<i v-if="navInfo[1]!=''" v-bind:class="['fa fa-'+navInfo[1]]" aria-hidden="true"></i> {{navInfo[0]}}</a>
+			<a v-for="(navInfo,navPath) in navList" v-bind:href="['/'+navPath]" class="list-group-item" v-bind:class="[nowPageName==navPath?activeClass:'']">&nbsp;<i v-if="navInfo[1]!=''" v-bind:class="['fa fa-'+navInfo[1]]" aria-hidden="true"></i> {{navInfo[0]}}</a>
 			<a href="/" class="list-group-item">&nbsp;<i class="fa fa-arrow-circle-left" aria-hidden="true"></i> 返回赛事列表</a>
 		</div>
 	</div>
@@ -87,8 +87,8 @@ Vue.component('games-title', {
 		}
 		
 		this.gamesInfo=gamesInfo;
-		if(gamesInfo.kind=="田径") this.headerImg="athletics.jpg";
-		else this.headerImg="swimming.jpg";
+		if(gamesInfo.kind=="田径") this.headerImg="/resource/image/athletics.jpg";
+		else this.headerImg="/resource/image/swimming.jpg";
 	},
 	template: '#games-title-template'
 })

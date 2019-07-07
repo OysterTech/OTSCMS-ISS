@@ -1,92 +1,179 @@
 <?php
 /**
- * @name 生蚝体育比赛管理系统-Web-首页
+ * @name 生蚝体育竞赛管理系统-Web2-赛事列表
  * @author Jerry Cheung <master@xshgzs.com>
- * @create 2018-08-09
- * @update 2018-12-08
+ * @since 2019-05-30
+ * @version 2019-07-07
  */
-
-require_once 'include/public.func.php';
-
-$query=PDOQuery($dbcon,"SELECT * FROM games WHERE is_show=1 ORDER BY end_date DESC");
 ?>
 
+<!DOCTYPE html>
 <html>
 <head>
-	<title>生蚝体育比赛信息查询系统 / 生蚝科技</title>
-	<?php include 'include/header.php'; ?>
-</head>
-<body>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>生蚝体育竞赛管理系统 / 生蚝科技</title>
+
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-<center><img src="<?=IMG_PATH;?>logo.jpg" style="display: inline-block;height: auto;max-width: 100%;" alt="生蚝体育比赛信息查询系统"></center>
+	<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/resource/js/back2top.js"></script>
 
-<hr>
+	<style type="text/css">
+		html,body {
+			font-family:微软雅黑;
+			margin: 0;
+			padding:0;
+			height: 100%;
+		}
+		th{
+			text-align:center;
+		}
+		#container {
+			min-height:60%;
+			height: auto !important;
+			height: 60%;
+			position: relative;
+		}
+		.bs-docs-header{
+			color:white;
+			margin-top:-20px;
+			background-image:url('/resource/image/swimming.jpg');
+			height:230px;
+			background-size: 100% 100%; 
+			background-repeat: no-repeat;
+			padding:30px 15px;
+		}
+		@media (min-width:768px){
+			.bs-docs-header{padding-top:60px;padding-bottom:60px;text-align:left}
+			.bs-docs-header h1{font-size:60px;line-height:1}
+		}
+		@media (min-width:992px){
+			.bs-docs-header h1,.bs-docs-header p{margin-right:380px}
+		}
+	</style>
+</head>
 
-<table class="table table-hover table-striped table-bordered gamesListTable">
-<tr>
-	<th style="text-align:center;background-color:#F5FF91;" colspan="2">点击比赛名称可查看详情</th>
-</tr>
-<tr>
-	<th style="text-align:center;">比赛名称</th>
-	<th style="text-align:center;">操作</th>
-</tr>
+<?php include 'include/component.php'; ?>
+	
+<body style="background-color:#57c5e2">
 
-<?php
-foreach($query[0] as $info){
-$info['extra_json']=json_decode($info['extra_json'],true);
-?>
-<tr id="tr_<?=$info['id'];?>">
-	<td style="text-align:left;vertical-align:middle;font-weight:bold;color:green;font-size:16px;" onclick='showDetail("<?=$info['id'];?>","<?=$info['name'];?>","<?=$info['start_date'];?>","<?=$info['end_date'];?>","<?=$info['extra_json']['venue'];?>")'><?=$info['name'];?></td>
-	<td style="text-align:center;vertical-align:middle;">
-		<a href="<?=ROOT_PATH;?>gamesIndex.php?gamesId=<?=$info['id'];?>" class="btn btn-primary">进入 &gt;</a>
-	</td>
-</tr>
-<?php } ?>
-</table>
+<!-- Vue Area -->
+<div id="app">
 
-<?php include 'include/footer.php'; ?>
+<page-navbar></page-navbar>
 
-<div class="modal fade" id="tipsModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span><span class="sr-only">Close</span></button>
-				<h3 class="modal-title" id="name"></h3>
+<div class="bs-docs-header">
+	<div class="container">
+		<h1>赛事数据查询</h1>
+		<h2>赛事日程、秩序单、成绩、资料下载</h2>
+	</div>
+</div>
+
+<div class="container" style="padding-top: 15px;">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">报名赛事列表（点击按钮 / 表格行进入查询）</h3>
 			</div>
-			<div class="modal-body">
-				<table class="table table-hover table-striped table-bordered">
-					<tr>
-						<th style="text-align:center;vertical-align:middle;">开赛<br>日期</th>
-						<td style="text-align:center;vertical-align:middle;" id="startDate"></td>
-					</tr>
-					<tr>
-						<th style="text-align:center;vertical-align:middle;">结束<br>日期</th>
-						<td style="text-align:center;vertical-align:middle;" id="endDate"></td>
-					</tr>
-					<tr>
-						<th style="text-align:center;vertical-align:middle;">比赛<br>地点</th>
-						<td style="text-align:center;vertical-align:middle;" id="venue"></td>
-					</tr>
+			<div class="table-responsive">
+				<table class="table table-hover table-striped">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>赛事名称</th>
+							<th>开始日</th>
+							<th>结束日</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(gamesInfo,index) in gamesList" @click="enterGames(gamesInfo)">
+							<td style="text-align:center;vertical-align:middle;">{{(nowPage-1)*perPageRow+index+1}}</td>
+							<td style="vertical-align:middle;">{{gamesInfo['name']}}</td>
+							<td style="text-align:center;vertical-align:middle;">{{gamesInfo['startDate']}}</td>
+							<td style="text-align:center;vertical-align:middle;">{{gamesInfo['endDate']}}</td>
+							<td style="text-align:center;vertical-align:middle;"><button class="btn btn-primary" @click="enterGames(gamesInfo)"><i class="fa fa-search" aria-hidden="true"></i> 查 询</button></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭 &gt;</button>
-			</div>
+		</div>
+	</div>
+
+	<!-- 分页条 -->
+	<div style="text-align:center;margin-top:-20px;">
+		<ul id="myPaginator" class="pagination">
+			<li v-for="pageNum in totalPage" v-if="pageNum==nowPage" class="active"><a>{{pageNum}}</a></li>
+			<li v-else><a @click="getList(pageNum)">{{pageNum}}</a></li>
+		</ul>
+	</div>
+
+	<!-- 记录数 -->
+	<div class="row">
+		<div class="col-md-12" style="text-align:center;">
+			<p style="color:#ffffff">记录总数：<span class="badge">{{totalRow}}</span></p>
 		</div>
 	</div>
 </div>
 
+</div>
+<!-- ./Vue Area -->
+
 <script>
-function showDetail(id,name,startDate,endDate,venue){
-	$("tr").attr("style","");
-	$("#tr_"+id).attr("style","background-color:#FCE4EC;");
-	$("#name").html(name);
-	$("#startDate").html(startDate);
-	$("#endDate").html(endDate);
-	$("#venue").html(venue);
-	$("#tipsModal").modal("show");
-}
+var totalPages=1;
+
+var vm = new Vue({
+	el:'#app',
+	data:{
+		nowPage:1,
+		gamesList:{},
+		totalRow:0,
+		totalPage:0,
+		perPageRow:10
+	},
+	methods:{
+		getList:(page=1)=>{
+			$.ajax({
+				url:'/api/getGamesList',
+				data:{'page':page,'rows':vm.perPageRow},
+				crossDomain:true,
+				dataType:'json',
+				success:function(ret){
+					if(ret.code==200){
+						let list=ret.data['list'];
+
+						for(i in list){
+							let extraJson=JSON.parse(list[i]['extra_json']);
+							for(j in extraJson){
+								list[i][j]=extraJson[j];
+							}
+
+							delete list[i]['extra_json'];
+						}
+
+						vm.nowPage=page;
+						vm.gamesList=list;
+						vm.totalRow=ret.data['totalRow'];
+						vm.totalPage=ret.data['totalPage'];
+					}
+				}
+			})
+		},
+		enterGames:(info)=>{
+			localStorage.setItem("OTSCMS_DA2_gamesInfo",JSON.stringify(info));
+			window.location.href="gamesIndex";
+		}
+	}
+});
+
+vm.getList();
 </script>
+
+<?php include 'include/footer.php'; ?>
 
 </body>
 </html>

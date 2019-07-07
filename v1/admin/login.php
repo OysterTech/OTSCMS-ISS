@@ -26,7 +26,7 @@ if(isset($_SESSION['sport_isLogin'])){
 		<a href="../ci"><center><img src="<?=IMG_PATH;?>adminLogo.png" style="display: inline-block;height: auto;max-width: 100%;"></center></a><br>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">登录 / 生蚝体育比赛信息查询系统后台</h3>
+				<h3 class="panel-title">登录 / 生蚝体育比赛信息查询系统后台V1.0（<a href="/ci/" style="color:blue;font-size:15px;">切换至V2.0</a>）</h3>
 			</div>
 			<div class="panel-body">
 				<div class="form-group">

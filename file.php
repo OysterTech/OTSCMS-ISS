@@ -1,60 +1,88 @@
 <?php
 /**
- * @name 生蚝体育比赛管理系统-Web-比赛资料
+ * @name 生蚝体育竞赛管理系统-Web2-赛事资料
  * @author Jerry Cheung <master@xshgzs.com>
- * @create 2018-08-16
- * @update 2018-09-02
+ * @since 2019-06-02
+ * @version 2019-07-07
  */
-	
-require_once 'include/public.func.php';
-
-$gamesInfo=isset($_SESSION['swim_gamesInfo'])?$_SESSION['swim_gamesInfo']:goToIndex();
-$gamesId=$gamesInfo['id'];
-$gamesName=$gamesInfo['name'];
-$extraJson=json_decode($gamesInfo['extra_json'],TRUE);
-
-$fileJson=$extraJson['file'];
 ?>
 
+<!DOCTYPE html>
 <html>
-<head>
-	<title><?=$gamesName;?> / 生蚝科技</title>
-	<?php include 'include/header.php'; ?>
-</head>
-<body>
 
-<center><img src="<?=IMG_PATH;?>logo.jpg" style="display: inline-block;height: auto;max-width: 100%;" alt="生蚝体育比赛信息查询系统"></center>
-<h2 style="text-align: center;"><?=$gamesName;?></h2>
+<?php
+$pageName='赛事资料下载';
+include 'include/header.php';
+?>
 
-<hr>
+<?php include 'include/component.php'; ?>
+	
+<body style="background-color:#57c5e2;">
 
-<h3 style="font-weight:bold;text-align:center;color:blue;">比 赛 资 料</h3>
+<div id="app">
 
-<hr>
+<page-navbar></page-navbar>
 
-<table class="table table-hover table-striped table-bordered">
-<tr>
-	<th style="text-align:center;">文件名</th>
-	<th style="text-align:center;">下载</th>
-</tr>
-<?php if($fileJson==[]){ ?>
-<tr>
-	<td style="color:red;font-weight:bold;font-size:18px;" colspan="2">暂 无 比 赛 资 料</td>
-</tr>
-<?php }else{ ?>
-<?php foreach($fileJson as $info){ ?>
-<tr>
-	<td style="text-align:center;vertical-align:middle;"><?=$info['name'];?></td>
-	<td><a href="<?=$info['url'];?>" class="btn btn-success">下 载 &gt;</button></td>
-</tr>
-<?php } } ?>
-</table>
+<games-title ref="header"></games-title>
 
-<hr>
+<div class="container">
+	<div class="row">
 
-<center>
-	<a href="<?=ROOT_PATH;?>gamesIndex.php?gamesId=<?=$gamesId;?>" class="btn btn-default" style="width:96%"><i class="fa fa-home" aria-hidden="true"></i> 返 回 首 页</a>
-</center>
+		<games-navbar></games-navbar>
+		
+		<div class="col-md-10">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr class="text-center bg-info">
+						<th class="text-center">文 件 名 称</th>
+						<th class="text-center">下 载</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" v-if="fileList.length<1">
+						<td colspan="2">暂 无 资 料</td>
+					</tr>
+					<tr class="text-center" v-else v-for="fileInfo in fileList">
+						<td>{{fileInfo['name']}}</td>
+						<td><a v-bind:href="fileInfo['url']" target="_blank">查看并下载</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+</div>
+
+<script>
+var vm = new Vue({
+	el:'#app',
+	data:{
+		gamesInfo:{},
+		fileList:{}
+	},
+	methods:{
+		getFileList:()=>{
+			$.ajax({
+				url:'/api/getFile',
+				data:{'id':vm.gamesInfo['id']},
+				dataType:'json',
+				error:e=>{
+					console.log(e);
+				},
+				success:ret=>{
+					vm.fileList=ret.data;
+				}
+			})
+		}
+	},
+	mounted:function(){
+		this.gamesInfo=this.$refs.header.gamesInfo;
+	}
+});
+
+vm.getFileList();
+</script>
 
 <?php include 'include/footer.php'; ?>
 

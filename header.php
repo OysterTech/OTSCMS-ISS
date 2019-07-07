@@ -1,7 +1,4 @@
 <head>
-	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?=$pageName;?> / 生蚝体育竞赛管理系统</title>
 	
@@ -13,7 +10,7 @@
 	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="back2top.js"></script>
+	<script src="/resource/js/back2top.js"></script>
 	<script src="/resource/js/util.js"></script>
 	
 	<style type="text/css">

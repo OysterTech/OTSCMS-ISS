@@ -1,54 +1,72 @@
-<hr>
-<center>
-	<!-- 更多比赛 -->
-	<p style="font-weight:bold;font-size:20px;line-height:26px;">
-		<a href="<?=ROOT_PATH;?><?php if(strpos($_SERVER['PHP_SELF'],'admin')!=FALSE){?>admin<?php } ?>">&lt;&lt; 查 看 更 多 比 赛</a><br>
-	</p>
-	<!-- ./更多比赛 -->
-	
+<!-- footer -->
+<div style="color:#FFFF00;text-align:center;font-weight:bold;font-size:18px;line-height:29px;">
 	<hr>
-	
-	<!-- 页脚版权 -->
-	<p style="font-weight:bold;font-size:20px;line-height:26px;">
-	
-		&copy; <a href="https://www.xshgzs.com?from=sport" target="_blank" style="font-size:21px;">生蚝科技</a> 2014-<?=date('Y');?>
-		<a style="color:#FF7043" onclick='launchQQ()'><i class="fa fa-qq fa-lg" aria-hidden="true"></i></a>
-		<a style="color:#29B6F6" href="mailto:master@xshgzs.com"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
-		<a style="color:#AB47BC" href="https://github.com/OysterTech" target="_blank"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a>
-		
-		<br>
-		
-		All Rights Reserved.<br>		
-		<a href="http://www.miitbeian.gov.cn/" target="_blank" style="color:black;">粤ICP备18045107号-2</a><br>
+	&copy; 2014-<?=date('Y');?> 生蚝科技
+	<a style="color:#07C160" data-toggle="modal" data-target="#wxModal"><i class="fa fa-weixin fa-lg" aria-hidden="true"></i></a>
+	<a style="color:#FF7043" onclick='launchQQ()'><i class="fa fa-qq fa-lg" aria-hidden="true"></i></a>
+	<a style="color:#29B6F6" href="mailto:master@xshgzs.com"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
+	<a style="color:#AB47BC" href="https://github.com/OysterTech" target="_blank"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a>
 
-	</p>
-	<!-- ./页脚版权 -->
-	
+	<br>
+
+	All Rights Reserved.<br>
+	<a href="http://beian.miit.gov.cn" target="_blank" style="color:#FFFF00;">粤ICP备19018320号-1</a><br>
+
 	<!-- 友情链接 -->
-	<p style="font-size:15px;line-height:26px;">
-		友情链接：<a href="http://swimming.sport.org.cn/" target="_blank" style="color:black;">中国游泳协会</a> | <a href="http://www.gdswim.org/" target="_blank" style="color:black;">广东省游泳协会</a>
-		<!-- ./友情链接 -->
-		
-		<br>
-		
-		<?php if(strpos($_SERVER['PHP_SELF'],"admin")===FALSE){ ?>
-		<a href="<?=ROOT_PATH;?>admin/login.php" target="_blank" style="color:black;">登入管理平台</a>
-		<?php }else{ ?>
-		<a href="<?=ROOT_PATH;?>admin/logout.php" style="color:green;font-weight:bold;font-size:18px;">退 出 后 台</a>
-		<?php } ?>
+	<p style="color:white;font-size:16px;">
+		友情链接：<a href="http://swimming.sport.org.cn/" target="_blank" style="color:white;">中国游泳协会</a> | <a href="http://www.gdswim.org/" target="_blank" style="color:white;">广东省游泳协会</a>
 	</p>
-</center>
+	<!-- ./友情链接 -->
 
-<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<?=JS_PATH;?>util.js"></script>
+	<a href="/ci" target="_blank" style="color:white;font-size:16px;">登 入 管 理 后 台 (V2.0)</a>
+
+	<br><br>
+</div>
+<!-- ./footer -->
 
 <script>
-function launchQQ(){		
+function launchQQ(){
 	if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
-	window.location.href="mqqwpa://im/chat?chat_type=wpa&uin=571339406";
+		window.location.href="mqqwpa://im/chat?chat_type=wpa&uin=571339406";
 	}else{
 		window.open("http://wpa.qq.com/msgrd?v=3&uin=571339406");
 	}
 }
 </script>
+
+
+<div class="modal fade" id="tipsModal" z-index="99999">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span><span class="sr-only">Close</span></button>
+				<h3 class="modal-title" id="ModalTitle">温馨提示</h3>
+			</div>
+			<div class="modal-body">
+				<font color="red" style="font-weight:bold;font-size:23px;text-align:center;">
+					<p id="tips"></p>
+				</font>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭 &gt;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="wxModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+				<h3 class="modal-title">微信公众号二维码</h3>
+			</div>
+			<div class="modal-body">
+				<center><img src="https://www.xshgzs.com/resource/index/images/wxOfficialAccountQRCode.jpg" style="width:85%"></center>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick='$("#wxModal").modal("hide");'>关闭 &gt;</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

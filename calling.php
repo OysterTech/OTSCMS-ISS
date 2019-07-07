@@ -12,10 +12,10 @@
 
 <?php
 $pageName='检录处';
-include 'header.php';
+include 'include/header.php';
 ?>
 
-<?php include 'component.php'; ?>
+<?php include 'include/component.php'; ?>
 
 <body style="background-color:#57c5e2;">
 
@@ -210,7 +210,7 @@ var vm = new Vue({
 vm.getCallingItem();
 </script>
 
-<?php include 'footer.php'; ?>
+<?php include 'include/footer.php'; ?>
 
 </body>
 </html>

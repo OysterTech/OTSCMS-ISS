@@ -100,7 +100,7 @@ if(isset($_POST) && $_POST){
 
 			// 获取单元格内容
 			$rank=$objPHPExcel->getActiveSheet()->getCell("P".$i)->getValue();
-			//$name=$objPHPExcel->getActiveSheet()->getCell("V".$i)->getValue();
+			$name=$objPHPExcel->getActiveSheet()->getCell("V".$i)->getValue();
 			$score=$objPHPExcel->getActiveSheet()->getCell("AC".$i)->getValue();
 			$point=$objPHPExcel->getActiveSheet()->getCell("R".$i)->getValue();
 			$allroundPoint=$objPHPExcel->getActiveSheet()->getCell("AD".$i)->getValue();
@@ -113,7 +113,7 @@ if(isset($_POST) && $_POST){
 			// 没成绩没排名，提醒加备注
 			if($score=="" && $rank==0){
 				$tipsRemarkRows++;
-				array_push($tipsRemarkNames,$runGroup.'/'.$runway);
+				array_push($tipsRemarkNames,$runGroup.'/'.$runway." ".$name);
 			}
 
 			// 修改成绩

@@ -11,41 +11,33 @@ function getURLParam(name){
 
 
 /**
- * lockScreen 屏幕锁定
- **/
+* lockScreen 屏幕锁定，显示加载图标
+**/
 function lockScreen(){
-$('body').append(
-	'<div id="lockContent" style="opacity: 0.8; filter:alpha(opacity=20); width: 100%; height: 100%; z-index: 9999; position:fixed; _position:absolute; top:0; left:0;left:50%; margin-left:-20px; top:50%; margin-top:-20px;">'+
-	'<div><i class="fa fa-refresh fa-spin fa-5x fa-fw"></i></div>'+
-	'</div>'+
-	'<div id="lockScreen" style="background: #000; opacity: 0.35; filter:alpha(opacity=20); width: 100%; height: 100%; z-index: 9999; position:fixed; _position:absolute; top:0; left:0;">'+
-	'</div>'
-	);
+	$('body').append(
+		'<div class="loadingwrap" id="loadingwrap"><div class="spinner"><div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div><div class="rect5"></div></div></div>'
+		);
 }
 
 
 /**
- * unlockScreen 屏幕解锁
- **/
+* unlockScreen 屏幕解锁
+**/
 function unlockScreen(){
-	// 延时，更逼真，不会闪现
-	sleep(150);
-	$('#lockScreen').remove();
-	$('#lockContent').remove();
+	// 0.3s后再删除，防止闪现
+	setTimeout(function(){
+		$('#loadingwrap').remove();
+	},300);	
 }
 
 
 /**
- * sleep 延时
- * @param String 需要延时的毫秒数(1s=1000)
- **/
-function sleep(numberMillis) {
-	var now = new Date();
-	var exitTime = now.getTime() + numberMillis;
-	while (true){
-		now = new Date();
-		if (now.getTime() > exitTime){
-			return;
-		}
-	}
+* showModalTips 模态框显示提醒消息
+* @param String 消息内容
+* @param String 消息标题
+**/
+function showModalTips(msg,title='温馨提示'){
+	$("#tips").html(msg);
+	$("#tipsTitle").html(title);
+	$("#tipsModal").modal("show");
 }

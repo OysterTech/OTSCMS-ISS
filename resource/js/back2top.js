@@ -1,10 +1,8 @@
 var scrolltotop={
 	setting: {startline:1, scrollto: 0, scrollduration:500, fadeduration:[500, 100]},
-	controlHTML: '<img src="http://swim.shuruitec.com/resources/webquery/back2top/arrow2top.png" style="background:#999999; border:0px #999999 solid;width:48px; height:48px" />',
+	controlHTML: '<img src="/resource/image/top.png" style="background:#999999; border:0px #999999 solid;width:48px; height:48px" />',
 	controlattrs: {offsetx:20, offsety:200},
 	anchorkeyword: '#top',
-
-
 	state: {isvisible:false, shouldvisible:false},
 
 	scrollup:function(){

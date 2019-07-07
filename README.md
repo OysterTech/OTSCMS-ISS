@@ -10,9 +10,9 @@
 
 ▲ 被授权方：广州君迪体育科技有限公司、广州市育才中学
 
-▲ 代码版本信息：***Build 13461***
+▲ 代码版本信息：***Build 13605***
 
-▲ 系统版本信息：***pre V2.0***
+▲ 系统版本信息：***V2.0***
 
 ▲ 遵循协议：GNU GPLv3
 
@@ -20,9 +20,7 @@
 
 ## 示例
 
-▲ 网站首页：[`点此访问首页`](https://sport.xshgzs.com)
-
-▲ V2.0：[`点此访问首页`](https://sport.xshgzs.com/test)
+▲ 网站首页（V2.0）：[`点此访问首页`](https://sport.xshgzs.com/test)
 
 ---
 
@@ -44,7 +42,7 @@
 
 * [`CodeIgniter`](http://codeigniter.org.cn/) V2.0后台后端框架
 
-* [`Vue.js`](https://vuejs.org/) V2.0后台前端框架
+* [`Vue.js`](https://vuejs.org/) V2.0前/后台前端框架
 
 * [`AdminLTE`](https://github.com/almasaeed2010/AdminLTE) V2.0后台UI框架
 

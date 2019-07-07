@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-07-06
+ * @version 2019-07-07
  */
 ?>
 
@@ -24,7 +24,7 @@
 	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="back2top.js"></script>
+	<script src="/resource/js/back2top.js"></script>
 	<script src="/resource/js/util.js"></script>
 	
 	<style type="text/css">
@@ -46,7 +46,7 @@
 		.bs-docs-header{
 			color:white;
 			margin-top:-20px;
-			background-image:url('swimming.jpg');
+			background-image:url('/resource/image/swimming.jpg');
 			height:230px;
 			background-size: 100% 100%; 
 			background-repeat: no-repeat;
@@ -64,7 +64,7 @@
 	
 <body style="background-color:#57c5e2">
 
-<?php include 'component.php'; ?>
+<?php include 'include/component.php'; ?>
 
 <!-- Vue Area -->
 <div id="app">
@@ -120,7 +120,7 @@
 	<!-- 记录数 -->
 	<div class="row">
 		<div class="col-md-12" style="text-align:center;">
-			<p style="color:#ffffff">记录总数：<span class="badge">{{totalRow }}</span></p>
+			<p style="color:#ffffff">记录总数：<span class="badge">{{totalRow}}</span></p>
 		</div>
 	</div>
 </div>

@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web2-检录
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-07-06
- * @version 2019-07-06
+ * @version 2019-07-07
  */
 ?>
 
@@ -58,41 +58,57 @@ include 'header.php';
 					<th style="vertical-align:middle;">名称</th>
 					<th style="vertical-align:middle;width:10%">组数</th>
 				</tr>
-				<tr v-if="Object.keys(callingItem).length>=1" style="background-color:#C4E1FF;text-align: center;">
-					<td style="background-color:#C4E1FF;vertical-align:middle;font-weight:bold;">正在<br>检录</td>
+
+				<!-- 正在检录 -->
+				<tr v-if="Object.keys(callingItem).length>=1" style="background-color:#C4E1FF;text-align:center;">
+					<td v-if="Object.keys(readyingInfo).length>=1" style="vertical-align:middle;font-weight:bold;" rowspan="2">正在<br>检录</td>
+					<td v-else style="vertical-align:middle;font-weight:bold;">正在<br>检录</td>
+
 					<td style="vertical-align:middle;font-weight:bold;">{{callingItem['order_index']}}</td>
 					<td style="vertical-align:middle;">{{callingItem['sex']}}</td>
 					<td style="vertical-align:middle;">{{callingItem['group_name']}}</td>
 					<td style="vertical-align:middle;">{{callingItem['name']}}</td>
 					<td style="vertical-align:middle;">{{callingItem['total_group']}}</td>
 				</tr>
+				<!-- ./正在检录 -->
+
+				<!-- 准备检录 -->
 				<tr v-if="Object.keys(readyingInfo).length>=1" style="text-align:center;">
-					<td style="vertical-align:middle;font-weight:bold;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
+					<td style="vertical-align:middle;font-weight:bold;">{{readyingInfo[0]['order_index']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[0]['sex']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[0]['group_name']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[0]['name']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[0]['total_group']}}</td>
 				</tr>
-				<tr v-if="Object.keys(callingItem).length>=2" style="text-align:center;background-color:#FFDAC8;">
-					<td id="ready_tips" style="background-color:#FFDAC8;vertical-align:middle;font-weight:bold;">准备<br>检录</td>
-					<td style="vertical-align:middle;font-weight:bold;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
+
+				<tr v-if="Object.keys(readyingInfo).length>=2" style="text-align:center;background-color:#FFDAC8;">
+					<td v-if="Object.keys(readyingInfo).length>=3" style="vertical-align:middle;font-weight:bold;" rowspan="2">准备<br>检录</td>
+					<td v-else style="vertical-align:middle;font-weight:bold;">准备<br>检录</td>
+
+					<td style="vertical-align:middle;font-weight:bold;">{{readyingInfo[1]['order_index']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[1]['sex']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[1]['group_name']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[1]['name']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[1]['total_group']}}</td>
 				</tr>
-				<tr v-if="Object.keys(callingItem).length>=3" style="text-align:center;">
-					<td style="vertical-align:middle;font-weight:bold;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
-					<td style="vertical-align:middle;"></td>
+
+				<tr v-if="Object.keys(readyingInfo).length>=3" style="text-align:center;">
+					<td style="vertical-align:middle;font-weight:bold;">{{readyingInfo[2]['order_index']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[2]['sex']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[2]['group_name']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[2]['name']}}</td>
+					<td style="vertical-align:middle;">{{readyingInfo[2]['total_group']}}</td>
 				</tr>
+				<!-- ./准备检录 -->
+
+				<!-- 没有在检项目 -->
 				<tr v-if="Object.keys(callingItem).length<1">
 					<td colspan="6" style="color:red;font-weight:bold;font-size:18px;">暂 无 检 录 信 息</td>
 				</tr>
+				<!-- ./没有在检项目 -->
 			</table>
 
+			<!-- 温馨提醒 -->
 			<div style="width:98%;text-align:center;margin: 0 auto;">
 				<div class="alert alert-warning">
 					<i class="fa fa-info-circle" aria-hidden="true"></i> 如有疑问，请前往检录处咨询<br>
@@ -105,6 +121,8 @@ include 'header.php';
 					<i class="fa fa-refresh fa-spin" aria-hidden="true"></i> 点击“自动刷新”后，系统将每30s自动刷新一次
 				</div>
 			</div>
+			<!-- ./温馨提醒 -->
+
 		</div>
 	</div>
 </div>
@@ -139,55 +157,19 @@ var vm = new Vue({
 					return false;
 				},
 				success:function(ret){
-					unlockScreen();
-
 					if(ret.code==200){
-						// 正在检录
-						let callingInfo=ret.data['calling'];
 						vm.readyingInfo=ret.data['readying'];
-
 						vm.callingBeginTime=ret.data['callingBeginTime'];
-						vm.scene=callingInfo['scene'];
-						vm.callingItem=callingInfo;
-
-						if(readyingInfo.length>=1){
-							$("#tr_2").attr("style","");
-							$("#tr_3").attr("style","display:none;");
-							$("#tr_4").attr("style","display:none;");
-							$("#call_tips").attr("rowspan",2);
-							$("#ready_1_orderIndex").html(readyingInfo[0]['order_index']);
-							$("#ready_1_sex").html(readyingInfo[0]['sex']);
-							$("#ready_1_groupName").html(readyingInfo[0]['group_name']);
-							$("#ready_1_name").html(readyingInfo[0]['name']);
-							$("#ready_1_totalGroup").html(readyingInfo[0]['total_group']);
-						}
-
-						if(readyingInfo.length>=2){
-							$("#tr_3").attr("style","background-color:#FFDAC8;");
-							$("#tr_4").attr("style","display:none;");
-							$("#ready_2_orderIndex").html(readyingInfo[1]['order_index']);
-							$("#ready_2_sex").html(readyingInfo[1]['sex']);
-							$("#ready_2_groupName").html(readyingInfo[1]['group_name']);
-							$("#ready_2_name").html(readyingInfo[1]['name']);
-							$("#ready_2_totalGroup").html(readyingInfo[1]['total_group']);
-						}
-
-						if(readyingInfo.length>=3){
-							$("#tr_4").attr("style","");
-							$("#ready_tips").attr("rowspan",2);
-							$("#ready_3_orderIndex").html(readyingInfo[2]['order_index']);
-							$("#ready_3_sex").html(readyingInfo[2]['sex']);
-							$("#ready_3_groupName").html(readyingInfo[2]['group_name']);
-							$("#ready_3_name").html(readyingInfo[2]['name']);
-							$("#ready_3_totalGroup").html(readyingInfo[2]['total_group']);
-						}
+						vm.scene=ret.data['calling']['scene'];
+						vm.callingItem=ret.data['calling'];
+						unlockScreen();
+						return;
 					}else if(ret.code==1){
-						$("#tr_1").attr("style","display:none;");
-						$("#tr_2").attr("style","display:none;");
-						$("#tr_3").attr("style","display:none;");
-						$("#tr_4").attr("style","display:none;");
-						$("#tr_5").attr("style","");
+						vm.clean();
+						unlockScreen();
+						return false;
 					}else{
+						unlockScreen();
 						showModalTips("系统错误，请联系管理员！<hr>Tips:建议先前往检录处查看检录情况，以免错过检录");
 						console.log(ret);
 						return false;
@@ -214,33 +196,10 @@ var vm = new Vue({
 			}
 		},
 		clean:()=>{
-			// 清除在检行内容
-			$("#call_tips").attr("rowspan",1);
-			$("#call_orderIndex").html("");
-			$("#call_sex").html("");
-			$("#call_groupName").html("");
-			$("#call_name").html("");
-			$("#call_totalGroup").html("");
-
-			vm.scene=0;
+			vm.callingItem={};
+			vm.readyingInfo={};
 			vm.callingBeginTime='';
-			$("#ready_tips").attr("rowspan",1);
-
-			// 所有行都要隐藏
-			$("#tr_1").attr("style","display:none;");
-			$("#tr_2").attr("style","display:none;");
-			$("#tr_3").attr("style","display:none;");
-			$("#tr_4").attr("style","display:none;");
-			$("#tr_5").attr("style","display:none;");
-
-			// 循环清理预检行内容
-			for(i=1;i<=3;i++){
-				$("#ready_"+i+"_orderIndex").html("");
-				$("#ready_"+i+"_sex").html("");
-				$("#ready_"+i+"_groupName").html("");
-				$("#ready_"+i+"_name").html("");
-				$("#ready_"+i+"_totalGroup").html("");
-			}
+			vm.scene=0;
 		}
 	},
 	mounted:function(){

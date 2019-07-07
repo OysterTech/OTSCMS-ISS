@@ -3,16 +3,13 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-06-28
+ * @version 2019-07-07
  */
 ?>
 
 <!DOCTYPE html>
 <html>
-<head>	
-	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>生蚝体育竞赛管理系统 / 生蚝科技</title>
 
@@ -24,7 +21,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="back2top.js"></script>
-	
+
 	<style type="text/css">
 		html,body {
 			font-family:微软雅黑;
@@ -92,7 +89,7 @@
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">报名赛事列表</h3>
+				<h3 class="panel-title">报名赛事列表（点击按钮 / 表格行进入查询）</h3>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-hover table-striped">
@@ -106,7 +103,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(gamesInfo,index) in gamesList">
+						<tr v-for="(gamesInfo,index) in gamesList" @click="enterGames(gamesInfo)">
 							<td style="text-align:center;vertical-align:middle;">{{(nowPage-1)*perPageRow+index+1}}</td>
 							<td style="vertical-align:middle;">{{gamesInfo['name']}}</td>
 							<td style="text-align:center;vertical-align:middle;">{{gamesInfo['startDate']}}</td>
@@ -188,31 +185,7 @@ var vm = new Vue({
 vm.getList();
 </script>
 
-<!-- footer -->
-<div style="color:#FFFF00;text-align:center;font-weight:bold;font-size:18px;line-height:29px;">
-	<hr>
-	&copy; 2014-2019 生蚝科技
-	<a style="color:#07C160" data-toggle="modal" data-target="#wxModal"><i class="fa fa-weixin fa-lg" aria-hidden="true"></i></a>
-	<a style="color:#FF7043" onclick='launchQQ()'><i class="fa fa-qq fa-lg" aria-hidden="true"></i></a>
-	<a style="color:#29B6F6" href="mailto:master@xshgzs.com"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a>
-	<a style="color:#AB47BC" href="https://github.com/OysterTech" target="_blank"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a>
-
-	<br>
-
-	All Rights Reserved.<br>
-	粤ICP备19018320号-1<br>
-
-	<!-- 友情链接 -->
-	<p style="color:white;font-size:16px;">
-		友情链接：<a href="http://swimming.sport.org.cn/" target="_blank" style="color:white;">中国游泳协会</a> | <a href="http://www.gdswim.org/" target="_blank" style="color:white;">广东省游泳协会</a>
-	</p>
-	<!-- ./友情链接 -->
-
-	<a href="/admin" target="_blank" style="color:white;font-size:16px;">登 入 管 理 后 台</a>
-
-	<br><br>
-</div>
-<!-- ./footer -->
+<?php include 'footer.php'; ?>
 
 </body>
 </html>

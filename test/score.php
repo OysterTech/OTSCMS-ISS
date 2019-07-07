@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-成绩公告
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-08
- * @version 2019-07-06
+ * @version 2019-07-07
  */
 ?>
 
@@ -189,8 +189,8 @@ include 'header.php';
 							<th>姓名</th>
 							<th>单位</th>
 							<th>成绩</th>
-							<th style="padding:5px 0 8px;">排名</th>
-							<th style="padding:5px 0 8px;">得分</th>
+							<th style="padding:5px 3px 8px;">排名</th>
+							<th style="padding:5px 3px 8px;">得分</th>
 							<th style="padding:5px 0 8px;">备注</th>
 						</tr>
 					</thead>
@@ -203,11 +203,13 @@ include 'header.php';
 								<td style="vertical-align:middle;">{{score['item_name']}}</td>
 								<td style="vertical-align:middle;">{{score['name']}}</td>
 								<td style="vertical-align:middle;">{{score['short_name']}}</td>
-								<td style="padding:5px 0;vertical-align:middle;">{{score['score']}}</td>
+								<td style="padding:5px 5px;vertical-align:middle;">{{score['score']}}</td>
 
+								<!-- 如果没异常备注且有排名 -->
 								<th v-if="score['remark']!='DNS'&&score['remark']!='DSQ'&&score['remark']!='DNF'&&score['rank']!=0" style="padding:5px 0;vertical-align:middle;color:blue">{{score['rank']}}</th>
 								<th v-else style="padding:5px 0;"></th>
 
+								<!-- 有分才显示得分 -->
 								<td v-if="score['point']!=0 && score['point']!=null" style="padding:5px 0;vertical-align:middle;">{{parseInt(score['point'])}}</td>
 								<td v-else style="padding:5px 0;vertical-align:middle;"></td>
 

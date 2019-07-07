@@ -3,7 +3,7 @@
  * @name 生蚝体育比赛管理系统-Web-处理运动员查询数据
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-07-03
- * @version 2019-07-06
+ * @version 2019-07-07
  */
 
 require_once '../include/public.func.php';
@@ -21,7 +21,7 @@ if($type=='order'){
 	$allGames=inputGet('allGames',1,1);
 	
 	if($allGames=='true'){
-		$scoreQuery=PDOQuery($dbcon,'SELECT a.name,a.score,a.rank,a.remark,b.sex,b.group_name,b.name AS item_name,c.name AS games_name,d.short_name FROM score a,item b,games c,team d WHERE a.name LIKE ? AND a.item_id=b.id AND b.games_id=c.id AND a.team_id=d.id ORDER BY c.start_date,a.rank,b.name',['%'.$name.'%'],[PDO::PARAM_STR]);
+		$scoreQuery=PDOQuery($dbcon,'SELECT a.name,a.score,a.rank,a.point,a.remark,b.sex,b.group_name,b.name AS item_name,c.name AS games_name,d.short_name FROM score a,item b,games c,team d WHERE a.name LIKE ? AND a.item_id=b.id AND b.games_id=c.id AND a.team_id=d.id ORDER BY c.start_date,a.rank,b.name',['%'.$name.'%'],[PDO::PARAM_STR]);
 		
 		$totalScore=$scoreQuery[1];
 		$scoreInfo=$scoreQuery[0];
@@ -40,7 +40,7 @@ if($type=='order'){
 		}
 	}else{
 		$gamesId=inputGet('gamesId',0,1);
-		$scoreQuery=PDOQuery($dbcon,'SELECT a.name,a.score,a.rank,a.remark,b.sex,b.group_name,b.name AS item_name,c.short_name FROM score a,item b,team c WHERE a.name LIKE ? AND a.item_id=b.id AND a.team_id=c.id AND b.games_id=? ORDER BY b.scene,b.order_index',['%'.$name.'%',$gamesId],[PDO::PARAM_STR,PDO::PARAM_INT]);
+		$scoreQuery=PDOQuery($dbcon,'SELECT a.name,a.score,a.rank,a.point,a.remark,b.sex,b.group_name,b.name AS item_name,c.short_name FROM score a,item b,team c WHERE a.name LIKE ? AND a.item_id=b.id AND a.team_id=c.id AND b.games_id=? ORDER BY b.scene,b.order_index',['%'.$name.'%',$gamesId],[PDO::PARAM_STR,PDO::PARAM_INT]);
 	}
 	
 	returnAjaxData(200,'success',['list'=>$scoreQuery[0]]);

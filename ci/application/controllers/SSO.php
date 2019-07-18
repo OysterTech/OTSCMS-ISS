@@ -3,7 +3,7 @@
  * @name C-SSO
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-02-17
- * @version 2019-02-17
+ * @version 2019-07-18
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -23,11 +23,11 @@ class SSO extends CI_Controller {
 	public function login()
 	{
 		$appId="otsso_a687d947aacda9437a8";
-		$returnUrl="https://sport.xshgzs.com/ci/SSO/login";
-		$ssoLoginUrl="https://ssouc.xshgzs.com/login/".$appId."/".urlencode($returnUrl);
+		$redirectUrl="https://sport.xshgzs.com/ci/SSO/login";
+		$ssoLoginUrl="https://ssouc.xshgzs.com/login?appId=".$appId."&redirectUrl=".urlencode($redirectUrl);
 		$token=isset($_GET['token'])&&$_GET['token']!=""?$_GET['token']:die(header("location:".$ssoLoginUrl));
 
-		$postData=array('method'=>'api','token'=>$token,'appId'=>$appId,'returnUrl'=>$returnUrl);
+		$postData=array('method'=>'api','token'=>$token,'appId'=>$appId,'redirectUrl'=>$redirectUrl);
 		$output=curl('https://ssouc.xshgzs.com/api/user/getUserInfo','post',$postData);
 		$data=json_decode($output,TRUE);
 		

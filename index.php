@@ -21,6 +21,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="/resource/js/back2top.js"></script>
+	<script src="/resource/js/util.js"></script>
 
 	<style type="text/css">
 		html,body {
@@ -137,6 +138,8 @@ var vm = new Vue({
 	},
 	methods:{
 		getList:(page=1)=>{
+			lockScreen();
+
 			$.ajax({
 				url:'/api/getGamesList',
 				data:{'page':page,'rows':vm.perPageRow},
@@ -159,11 +162,13 @@ var vm = new Vue({
 						vm.gamesList=list;
 						vm.totalRow=ret.data['totalRow'];
 						vm.totalPage=ret.data['totalPage'];
+						unlockScreen();
 					}
 				}
 			})
 		},
 		enterGames:(info)=>{
+			lockScreen();
 			sessionStorage.setItem("OTSCMS_DA2_gamesInfo",JSON.stringify(info));
 			window.location.href="gamesIndex";
 		}

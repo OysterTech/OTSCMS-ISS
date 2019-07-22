@@ -160,6 +160,7 @@ Vue.component('choose-games-modal', {
 	},
 	methods:{
 		getList:function(page=1){
+			lockScreen();
 			var _this=this;
 
 			$.ajax({
@@ -183,11 +184,13 @@ Vue.component('choose-games-modal', {
 						_this.gamesList=list;
 						_this.totalRow=ret.data['totalRow'];
 						_this.totalPage=ret.data['totalPage'];
+						unlockScreen();
 					}
 				}
 			})
 		},
 		enterGames:(info)=>{
+			lockScreen();
 			sessionStorage.setItem("OTSCMS_DA2_gamesInfo",JSON.stringify(info));
 			location.reload();
 		}

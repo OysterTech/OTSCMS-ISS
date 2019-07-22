@@ -1,0 +1,63 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>网址变更公告 / 生蚝科技-体育分部</title>
+
+	<style>
+		.notice {
+			width: 1000px;
+			height: 300px;
+			background: url(/404.jpg) no-repeat center top;
+			margin: 40px auto 0 auto;
+			padding-top: 340px;
+		}
+
+		.zw {
+			width: 660px;
+			margin: 0 auto;
+			overflow: hidden;
+			line-height: 34px;
+		}
+
+		.lk {
+			float: right;
+			margin-right: 120px;
+			margin-top: 30px;
+			line-height: 28px;
+		}
+
+		.bt {
+			float: left;
+			margin-right: 176px;
+			margin-top: 130px;
+			margin-left: 170px;
+		}
+	</style>
+</head>
+<body>
+	<div class="notice">
+		<p class="zw">
+			由于系统已完全升级，当前访问的旧版网页已停止使用。<br>
+			我们将在<span id="dd">10</span>秒后为您自动跳转到新版系统
+		</p>
+		<p class="lk">
+			广州市生蚝科技有限公司 项目中心体育分部<br>2019 年 7 月 3 日
+		</p>
+		<p class="bt">
+			<a href="https://sport.xshgzs.com?from=old" style="color:#C00">或可点击此处跳转到新系统</a>
+		</p>
+	</div>
+
+	<script type="text/javascript">
+		function run() {
+			var s = document.getElementById("dd");
+			s.innerHTML = s.innerHTML * 1 - 1;
+			if (s.innerHTML == 0) {
+				window.location.href = 'https://sport.xshgzs.com?from=old';
+			}
+		}
+
+		window.setInterval("run();", 1000);
+	</script>
+</body>
+</html>

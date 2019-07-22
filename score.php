@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-成绩公告
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-08
- * @version 2019-07-07
+ * @version 2019-07-22
  */
 ?>
 
@@ -20,6 +20,8 @@ include 'include/header.php';
 <body style="background-color:#57c5e2;">
 
 <div id="app">
+
+<choose-games-modal></choose-games-modal>
 
 <page-navbar></page-navbar>
 

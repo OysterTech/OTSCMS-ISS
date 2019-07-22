@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-组件
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-07-07
+ * @version 2019-07-22
  */
 ?>
 
@@ -11,6 +11,12 @@
 	<nav class="navbar navbar-default navbar-static-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 				<a class="navbar-brand" href="/">
 					<img style="margin-top:-10px; height:40px" alt="生蚝体育科技" src="/resource/image/logo.jpg">
 				</a>
@@ -52,7 +58,8 @@ Vue.component('games-navbar', {
 				'file': ['下载资料','files-o'],
 				'order': ['秩序册','table'],
 				'calling': ['检录处','volume-up'],
-				'score': ['成绩公告','trophy']
+				'score': ['成绩公告','trophy'],
+				'teamScore': ['团体分','users']
 			}
 		}
 	},
@@ -81,9 +88,9 @@ Vue.component('games-title', {
 		}
 	},
 	mounted:function(){
-		let gamesInfo=JSON.parse(localStorage.getItem("OTSCMS_DA2_gamesInfo"));
+		let gamesInfo=JSON.parse(sessionStorage.getItem("OTSCMS_DA2_gamesInfo"));
 		if(gamesInfo==undefined){
-			window.location.href="index";
+			return;
 		}
 		
 		this.gamesInfo=gamesInfo;
@@ -91,5 +98,108 @@ Vue.component('games-title', {
 		else this.headerImg="/resource/image/swimming.jpg";
 	},
 	template: '#games-title-template'
+})
+</script>
+
+
+<template id="choose-games-modal-template">
+<div class="modal fade" id="chooseGamesModal" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal-title">请选择比赛</h3>
+			</div>
+			<div class="modal-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-striped" style="text-align: left;">
+						<thead>
+							<tr>
+								<th>赛事名称</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(gamesInfo,index) in gamesList">
+								<td style="vertical-align:middle;">{{gamesInfo['name']}}</td>
+								<td style="text-align:center;vertical-align:middle;"><button class="btn btn-primary" @click="enterGames(gamesInfo)"><i class="fa fa-search" aria-hidden="true"></i> 查 询</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<!-- 分页条 -->
+				<div style="text-align:center;margin-top:-20px;">
+					<ul id="myPaginator" class="pagination">
+						<li v-for="pageNum in totalPage" v-if="pageNum==nowPage" class="active"><a>{{pageNum}}</a></li>
+						<li v-else><a @click="getList(pageNum)">{{pageNum}}</a></li>
+					</ul>
+				</div>
+
+				<!-- 记录数 -->
+				<div class="row">
+					<div class="col-md-12" style="text-align:center;">
+						<p>记录总数：<span class="badge" style="color:#ffffff">{{totalRow}}</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</template>
+
+<script>
+Vue.component('choose-games-modal', {
+	data:function(){
+		return {
+			nowPage:1,
+			gamesList:{},
+			totalRow:0,
+			totalPage:0,
+			perPageRow:5
+		}
+	},
+	methods:{
+		getList:function(page=1){
+			var _this=this;
+
+			$.ajax({
+				url:'/api/getGamesList',
+				data:{'page':page,'rows':_this.perPageRow},
+				dataType:'json',
+				success:function(ret){
+					if(ret.code==200){
+						let list=ret.data['list'];
+
+						for(i in list){
+							let extraJson=JSON.parse(list[i]['extra_json']);
+							for(j in extraJson){
+								list[i][j]=extraJson[j];
+							}
+
+							delete list[i]['extra_json'];
+						}
+
+						_this.nowPage=page;
+						_this.gamesList=list;
+						_this.totalRow=ret.data['totalRow'];
+						_this.totalPage=ret.data['totalPage'];
+					}
+				}
+			})
+		},
+		enterGames:(info)=>{
+			sessionStorage.setItem("OTSCMS_DA2_gamesInfo",JSON.stringify(info));
+			location.reload();
+		}
+	},
+	mounted:function(){
+		let gamesInfo=JSON.parse(sessionStorage.getItem("OTSCMS_DA2_gamesInfo"));
+
+		if(gamesInfo==undefined){
+			this.getList();
+			$("#chooseGamesModal").modal("show");
+		}
+	},
+	template: '#choose-games-modal-template'
 })
 </script>

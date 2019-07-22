@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事分组
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-06-27
- * @version 2019-07-07
+ * @version 2019-07-22
  */
 ?>
 
@@ -20,6 +20,8 @@ include 'include/header.php';
 <body style="background-color:#57c5e2;">
 
 <div id="app">
+
+<choose-games-modal></choose-games-modal>
 
 <page-navbar></page-navbar>
 
@@ -331,9 +333,7 @@ var vm = new Vue({
 						
 						for(i in data){
 							let info=data[i];
-							
 							if(retData[info['run_group']]===undefined) retData[info['run_group']]=[];
-							
 							retData[info['run_group']].push(info);
 						}
 						
@@ -342,6 +342,9 @@ var vm = new Vue({
 						$("#orderResult").show(500);
 						unlockScreen();
 						return true;
+					}else if(ret.code==1){
+						showModalTips("无此项目！");
+						unlockScreen();
 					}else{
 						showModalTips("系统错误！");
 						unlockScreen();

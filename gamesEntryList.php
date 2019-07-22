@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-赛事列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-07-07
+ * @version 2019-07-22
  */
 ?>
 
@@ -169,7 +169,7 @@ var vm = new Vue({
 			})
 		},
 		enterGames:(info)=>{
-			localStorage.setItem("OTSCMS_DA2_gamesInfo",JSON.stringify(info));
+			sessionStorage.setItem("OTSCMS_DA2_gamesInfo",JSON.stringify(info));
 			window.location.href="gamesIndex";
 		}
 	}

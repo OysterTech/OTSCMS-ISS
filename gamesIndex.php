@@ -3,7 +3,7 @@
  * @name 生蚝体育竞赛管理系统-Web2-比赛首页
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2019-05-30
- * @version 2019-07-07
+ * @version 2019-07-22
  */
 ?>
 
@@ -26,6 +26,8 @@ include 'include/header.php';
 </style>
 
 <div id="app">
+
+<choose-games-modal></choose-games-modal>
 
 <page-navbar></page-navbar>
 

@@ -9,9 +9,9 @@
 $dbcon=null;
 $dbms="mysql";
 $host="localhost";
-$database="xsh_sportci";
+$database="sport";
 $userName="root";
-$passWord="ITRClub,.SQL";
+$passWord="";
 $dsn="{$dbms}:host={$host};dbname={$database};charset=utf8";
 try{
 	$dbcon=new PDO($dsn,$userName,$passWord);
